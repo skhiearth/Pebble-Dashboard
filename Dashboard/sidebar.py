@@ -42,23 +42,20 @@ sidebar = html.Div(
             vertical=True,
             pills=True,
         ),
-    ],
-    style=SIDEBAR_STYLE,
-)
 
-footer = dbc.Navbar([
-    html.A(
-        # Use row and col to control vertical alignment of logo / brand
+        html.Hr(),
+        html.P(),
+        html.P(),
+
         dbc.Row(
             [
-                dbc.Col(html.Img(src=MISFITS_LOGO, height="30px")),
-                dbc.Col(dbc.NavbarBrand("Made by The Misfits for Grants Round 11 Hackathon by Gitcoin and IoTeX", className="ml-3")),
+                dbc.Col(html.H6("Made by The Misfits for Grants Round 11 Hackathon by Gitcoin and IoTeX")),
             ],
             align="center",
             no_gutters=True,
         ), 
-        href="http://themisfits.xyz/",
-    ),
-], color="#3B3B3B", dark=True, style=FOOTER_STYLE)
+    ],
+    style=SIDEBAR_STYLE
+)
 
 content = html.Div(id="page-content", style=CONTENT_STYLE)

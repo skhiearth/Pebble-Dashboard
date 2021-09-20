@@ -23,7 +23,6 @@ app.layout = html.Div([
     html.Div(sidebar), 
     html.Div(navbar), 
     html.Div(content),
-    html.Div(footer), 
 ])
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])

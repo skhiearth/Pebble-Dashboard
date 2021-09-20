@@ -1,5 +1,6 @@
 # Import libraries
 from json import load
+from os import stat
 from .server import *
 import dash
 import dash_html_components as html
@@ -17,79 +18,177 @@ from .style import *
 overview = html.Div(
     [
         dbc.Row([
-            dcc.Store(id='intermediate-value-in-0'),
-            dcc.Store(id='intermediate-value-in-00'),
-            dcc.Store(id='intermediate-value-in-000'),
-            dcc.Store(id='intermediate-value-in-0000'),
+            dcc.Store(id='statusData'),
             html.Div(id='in-load'),
             dbc.Col(html.Div(html.H3("Overview", style=HEADING))),
         ]),
-        dbc.Row([
-            html.H5("Compare with:", style=TEXT),
-            dcc.Checklist(
-                id="checklist",
-                options=[{"label": x, "value": x} 
-                        for x in networks],
-                value=networks[0:1],
-                labelStyle={'display': 'inline-block', 'margin': '5px', 'padding': '3px', "font-family": 'DM Mono, monospace',}
-            )
-        ], style={'margin-left': '10px'}),
+        html.Hr(),
+
+        html.P(),
+
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="allTxns", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN),
-                dbc.Col(dcc.Graph(id="uniqueAddresses", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN)
+                dbc.Col([
+                    html.H4("Devices"),
+                    html.P(),
+                    html.H5(id='totalDevices'),
+                    html.H5(id='confirmedDevices'),
+                    html.H5(id='pendingDevices'),
+                    html.H5(id='activeData'),
+                    html.H5(id='noData'),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H4("Users with most devices"),
+                    html.P(),
+                    html.H5(id='firstDevices'),
+                    html.H5(id='secondDevices'),
+                    html.H5(id='thirdDevices'),
+                ], style=COLUMN),
             ]
         ),
+
+        html.Hr(),
+
+        html.P(),
+
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="cummulativeNetworkFee", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN),
-            ]
-        ),
-        dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="networkStats1", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN),
-                dbc.Col(dcc.Graph(id="networkStats2", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN)
+                dbc.Col([
+                    html.H4("Pebble tracker with latest update"),
+                    html.H6("This pebble tracker has sent the latest data update to the TruStream network out of all registered trackers"),
+                    html.P(),
+                    html.H5(id='timeLatest'),
+                    html.H5(id='idLatest'),
+                    html.H5(id='nameLatest'),
+                    html.H5(id='addressLatest'),
+                    html.H5(id='ownerLatest'),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H4("Pebble tracker with oldest update"),
+                    html.H6("This pebble tracker has not sent a data update to the TruStream network in the longest time out of all registered trackers"),
+                    html.P(),
+                    html.H5(id='timeOldest'),
+                    html.H5(id='idOldest'),
+                    html.H5(id='nameOldest'),
+                    html.H5(id='addressOldest'),
+                    html.H5(id='ownerOldest'),
+                ], style=COLUMN),
             ]
         ),
     ]
 )
 
-# Load data
+# Cards
+# Devices
 @app.callback(
-    Output('intermediate-value-in-0', 'data'),
-    [dash.dependencies.Input('in-load', 'n_clicks')])
-def update_output(n_clicks):
-    txnsByDate = pd.read_csv('https://storage.googleapis.com/iotube/txnStats')
-    return txnsByDate.to_json(date_format='iso', orient='split')
+    Output("totalDevices", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Total Devices: {}".format(len(statusDf))
 
 @app.callback(
-    Output('intermediate-value-in-00', 'data'),
-    [dash.dependencies.Input('in-load', 'n_clicks')])
-def update_output(n_clicks):
-    networkStats = pd.read_csv('https://storage.googleapis.com/iotube/networkStatsNew')
-    return networkStats.to_json(date_format='iso', orient='split')
+    Output("confirmedDevices", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Confirmed Devices: {}".format(len(statusDf[statusDf["Status"] == 2]))
 
 @app.callback(
-    Output('intermediate-value-in-000', 'data'),
-    [dash.dependencies.Input('in-load', 'n_clicks')])
-def update_output(n_clicks):
-    df = pd.read_csv('https://storage.googleapis.com/iotube/yearHourData')
-    return df.to_json(date_format='iso', orient='split')
+    Output("pendingDevices", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Pending Devices: {}".format(len(statusDf[statusDf["Status"] == 1]))
 
 @app.callback(
-    Output('intermediate-value-in-0000', 'data'),
-    [dash.dependencies.Input('in-load', 'n_clicks')])
-def update_output(n_clicks):
-    df = pd.read_csv('https://storage.googleapis.com/iotube/newHourData')
-    return df.to_json(date_format='iso', orient='split')
-    
-# Daily Transactions
+    Output("activeData", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Active Devices: {}".format(len(statusDf[statusDf["Raw Data"] != "No Data"]))
+
 @app.callback(
-    Output("allTxns", "figure"), 
-    Input(component_id='checklist', component_property='value'),
-    Input('intermediate-value-in-0', 'data'))
-def update_line_chart(value, data):
-    txnsByDate = pd.read_json(data, orient='split')
-    mask = txnsByDate.Network.isin(value)
-    fig = px.line(txnsByDate[mask], 
-        x="Date", y="Transactions", color="Network", color_discrete_sequence=["#38FF99", "#8147E5", "red", "goldenrod", "magenta"],
-        title="Daily Transactions", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
-    return fig
+    Output("noData", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Devices with no data yet: {}".format(len(statusDf[statusDf["Raw Data"] == "No Data"]))
+
+
+# Owner Frequency
+@app.callback(
+    Output("firstDevices", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "{} devices: {}".format(statusDf.Owner.value_counts()[0],
+    statusDf.Owner.value_counts()[:4].index.tolist()[0])
+
+@app.callback(
+    Output("secondDevices", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "{} devices: {}".format(statusDf.Owner.value_counts()[1],
+    statusDf.Owner.value_counts()[:4].index.tolist()[1])
+
+@app.callback(
+    Output("thirdDevices", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "{} devices: {}".format(statusDf.Owner.value_counts()[2],
+    statusDf.Owner.value_counts()[:4].index.tolist()[2])
+
+
+# Oldest/Latest
+@app.callback(
+    Output("timeLatest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Time: {}".format(timeDf.iloc[0]["Last Data"])
+
+@app.callback(
+    Output("timeOldest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Time: {}".format(timeDf.iloc[-1]["Last Data"])
+
+@app.callback(
+    Output("idLatest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "ID: {}".format(timeDf.iloc[0]["Id"])
+
+@app.callback(
+    Output("idOldest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "ID: {}".format(timeDf.iloc[-1]["Id"])
+
+@app.callback(
+    Output("nameLatest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Name: {}".format(timeDf.iloc[0]["Name"])
+
+@app.callback(
+    Output("nameOldest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Name: {}".format(timeDf.iloc[-1]["Name"])
+
+@app.callback(
+    Output("addressLatest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Address: {}".format(timeDf.iloc[0]["Address"])
+
+@app.callback(
+    Output("addressOldest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Address: {}".format(timeDf.iloc[-1]["Address"])
+
+@app.callback(
+    Output("ownerLatest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Owner: {}".format(timeDf.iloc[0]["Owner"])
+
+@app.callback(
+    Output("ownerOldest", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "Owner: {}".format(timeDf.iloc[-1]["Owner"])

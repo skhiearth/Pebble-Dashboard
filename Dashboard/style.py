@@ -58,7 +58,8 @@ COLUMN = {
     "padding": "10px",
     "margin": "20px",
     "border-radius": "25px",
-    "background-color": "#FFFFFF",
+    "background-color": "#262525",
+    "color": "white"
 }
 
 COLUMNFULL = {
@@ -71,4 +72,9 @@ COLUMNFULL = {
 
 GRAPHS = {
     "width": "100%",
+}
+
+TEXT = {
+    "padding-left": "8px",
+    "color": "white",
 }
