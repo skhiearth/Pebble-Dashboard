@@ -111,3 +111,9 @@ for key, value in result["data"].items():
 statusDf.sort_values(by='Last Data Time', ascending = False, inplace=True)
 statusDf.reset_index(inplace=True)
 timeDf = statusDf[statusDf["Last Data"] != "None"]
+
+timeDf['Latitude'] = timeDf['Latitude'].apply(lambda x: x / 10 ** (len((str(x))) - 2))
+timeDf['Longitude'] = timeDf['Longitude'].apply(lambda x: x / 10 ** (len((str(x))) - 2))
+
+timeDf["Longitude"] = pd.to_numeric(timeDf["Longitude"])
+timeDf["Latitude"] = pd.to_numeric(timeDf["Latitude"])

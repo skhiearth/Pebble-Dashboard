@@ -50,6 +50,12 @@ overview = html.Div(
 
         html.P(),
 
+        dcc.Graph(id='latestLocation', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, style=COLUMNFULL),
+
+        html.Hr(),
+
+        html.P(),
+
         dbc.Row(children=[
                 dbc.Col([
                     html.H4("Pebble tracker with latest update"),
@@ -192,3 +198,16 @@ def update_line_chart(data):
     Input('statusData', 'data'))
 def update_line_chart(data):
     return "Owner: {}".format(timeDf.iloc[-1]["Owner"])
+
+# Map
+@app.callback(
+    Output("latestLocation", component_property='figure'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    fig = px.scatter_geo(timeDf,
+                    lat=timeDf["Latitude"],
+                    lon=timeDf["Longitude"],
+                    title="Latest location of Pebble Devices (hover over to see ID)",
+                    hover_name="Id", template='plotly_dark').update_layout(
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+    return fig
