@@ -23,6 +23,11 @@ device = html.Div(
         dbc.Row(dbc.Col(html.Div(html.H3("Device Analytics", style=HEADING)))),
         dcc.Store(id='deviceData'),
         html.Div(id='in-load'),
+
+        html.P(),
+
+        html.H5("Select a device from the dropdown to get in-depth device analytics: "),
+
         dcc.Dropdown(
             id='dropdown',
             options=[
@@ -56,17 +61,14 @@ device = html.Div(
                     html.H5(id='vbat'),
                     html.H5(id='latitude'),
                     html.H5(id='longitude'),
-                    html.H5(id='gasResistance'),
                     html.H5(id='temperature'),
-
                 ], style=COLUMN),
                 dbc.Col([
-                    html.H5(id='pressure'),
-                    html.H5(id='latitude'),
-                    html.H5(id='longitude'),
                     html.H5(id='gasResistance'),
+                    html.H5(id='pressure'),
                     html.H5(id='humidity'),
                     html.H5(id='light'),
+                    html.H5(id='temperature2'),
                 ], style=COLUMN),
             ]
         ),
@@ -83,13 +85,38 @@ device = html.Div(
             ]
         ),
 
-        dcc.Graph(id='latestLocationPebble', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, style=COLUMNFULL),
+        dcc.Graph(id='latestLocationPebble', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
         
+        html.Hr(),
+        html.H4("Historic Data"),
+        html.H6("Analytics of historic data sent by this pebble device"),
+        html.P(),
+
+
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="txnFees", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN),
-                dbc.Col(dcc.Graph(id="txnFeesOut", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN)
+                dbc.Col(dcc.Graph(id="snrhist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="vbathist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
             ]
         ),
+
+        dbc.Row(children=[
+                dbc.Col(dcc.Graph(id="temperaturehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="temperature2hist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
+            ]
+        ),
+
+        dbc.Row(children=[
+                dbc.Col(dcc.Graph(id="pressurehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="humidityhist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
+            ]
+        ),
+
+        dbc.Row(children=[
+                dbc.Col(dcc.Graph(id="lighthist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="gasResistancehist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
+            ]
+        ),
+
     ]
 )
 
@@ -136,3 +163,265 @@ def update_line_chart(value):
 def update_line_chart(value):
     filtered_df = timeDf[timeDf['Id'] == value]
     return "Owner: {}".format(filtered_df.iloc[0]["Owner"])
+
+@app.callback(
+    Output("snr", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Signal-to-noise ratio: {}".format(data.iloc[0]["Snr"])
+
+@app.callback(
+    Output("vbat", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Battery Voltage: {}V".format(data.iloc[0]["Vbat"])
+
+@app.callback(
+    Output("latitude", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Latitude: {}".format(data.iloc[0]["Latitude"])
+
+@app.callback(
+    Output("longitude", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Longitude: {}".format(data.iloc[0]["Longitude"])
+
+@app.callback(
+    Output("gasResistance", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Gas Resistance: {}".format(data.iloc[0]["Gas Resistance"])
+
+@app.callback(
+    Output("temperature", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Temperature: {} deg C".format(data.iloc[0]["Temperature"])
+
+@app.callback(
+    Output("pressure", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Pressure: {} hPa".format(data.iloc[0]["Pressure"])
+
+@app.callback(
+    Output("humidity", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Humidity: {}".format(data.iloc[0]["Humidity"])
+
+@app.callback(
+    Output("light", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Ambient Light: {} lux".format(data.iloc[0]["Light"])
+
+@app.callback(
+    Output("temperature2", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "Temperature (from motion sensor): {} deg C".format(data.iloc[0]["Temperature2"])
+
+@app.callback(
+    Output("gyroscope", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "X: {}, Y: {}, Z: {}".format(data.iloc[0]["Gyroscope1"], data.iloc[0]["Gyroscope2"], data.iloc[0]["Gyroscope3"])
+
+@app.callback(
+    Output("accelerometer", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    
+    return "X: {}, Y: {}, Z: {}".format(data.iloc[0]["Accelerometer1"], data.iloc[0]["Accelerometer2"], data.iloc[0]["Accelerometer3"])
+
+# Map
+@app.callback(
+    Output("latestLocationPebble", component_property='figure'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    fig = px.scatter_geo(data,
+                    lat=data["Latitude"],
+                    lon=data["Longitude"],
+                    title="Latest location of Pebble Device (hover over to see timestamp)",
+                    hover_name="Timestamp", template='plotly_dark').update_layout(
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+    return fig
+
+# Historic
+@app.callback(
+    Output("snrhist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Signal-to-noise ratio <br>Latest on {}: {}".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Snr"].iat[0]))
+    fig = px.bar(data, 
+        x="Timestamp", y="Snr", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    return fig
+
+@app.callback(
+    Output("vbathist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Battery Voltage <br>Latest on {}: {}V".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Vbat"].iat[0]))
+    fig = px.bar(data, 
+        x="Timestamp", y="Vbat", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    return fig
+
+@app.callback(
+    Output("temperaturehist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Temperature (Motion Sensor) <br>Latest on {}: {} deg C".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Temperature2"].iat[0]))
+    fig = px.line(data, 
+        x="Timestamp", y="Temperature2", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    fig['data'][0]['line']['color']="#21625B"
+    return fig
+
+@app.callback(
+    Output("temperature2hist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Temperature <br>Latest on {}: {} deg C".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Temperature"].iat[0]))
+    fig = px.line(data, 
+        x="Timestamp", y="Temperature", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    fig['data'][0]['line']['color']="#21625B"
+    return fig
+
+@app.callback(
+    Output("gasResistancehist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Gas Resistance <br>Latest on {}: {} ".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Gas Resistance"].iat[0]))
+    fig = px.line(data, 
+        x="Timestamp", y="Gas Resistance", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    fig['data'][0]['line']['color']="#21625B"
+    return fig
+
+@app.callback(
+    Output("pressurehist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Pressure <br>Latest on {}: {} hPa".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Pressure"].iat[0]))
+    fig = px.line(data, 
+        x="Timestamp", y="Pressure", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    fig['data'][0]['line']['color']="#21625B"
+    return fig
+
+@app.callback(
+    Output("humidityhist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Humidity <br>Latest on {}: {}".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Humidity"].iat[0]))
+    fig = px.line(data, 
+        x="Timestamp", y="Humidity", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    fig['data'][0]['line']['color']="#21625B"
+    return fig
+
+@app.callback(
+    Output("lighthist", "figure"), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+
+    titletext = "Light <br>Latest on {}: {} lux".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
+    str(data["Light"].iat[0]))
+    fig = px.line(data, 
+        x="Timestamp", y="Light", 
+        title=titletext
+        )
+    fig.update_layout({
+        "plot_bgcolor": "#43C9BA",
+        "paper_bgcolor": "#43C9BA",
+    })
+    fig['data'][0]['line']['color']="#21625B"
+    return fig

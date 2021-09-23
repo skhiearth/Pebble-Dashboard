@@ -62,6 +62,16 @@ COLUMN = {
     "color": "white"
 }
 
+COLUMNGREEN = {
+    "width": "40%",
+    "display": "inline-block",
+    "padding": "10px",
+    "margin": "20px",
+    "border-radius": "25px",
+    "background-color": "#43C9BA",
+    "color": "#21625B"
+}
+
 COLUMNFULL = {
     "width": "100%",
     "display": "inline-block",
