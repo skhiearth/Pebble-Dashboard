@@ -10,64 +10,81 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from .getDeviceData import getDeviceData
 
 # Import styles
 from .style import *
 
 # ---COMPONENTS---
-
-# Load and filter the dataset
-def loadData():
-    df = pd.read_csv('https://storage.googleapis.com/iotube/bridgeInflow')
-    return df
-
-def loadDataOut():
-    df = pd.read_csv('https://storage.googleapis.com/iotube/bridgeOutflow')
-    return df
-
-def filter(value, inDf):
-    mask = inDf.Network.isin(value)
-    inDf = inDf[mask]
-
-    return inDf
-
-networks = ["Polygon", "BSC", "Ethereum"]
+ids = timeDf.Id.unique()
 
 device = html.Div(
     [
-        dbc.Row(dbc.Col(html.Div(html.H3("Bridge Analytics", style=HEADING)))),
-        dbc.Row([
-            html.H5("Compare with:", style=TEXT),
-            dcc.Checklist(
-                id="bridge-select",
-                options=[{"label": x, "value": x} 
-                        for x in networks],
-                value=networks[0:2],
-                labelStyle={'display': 'inline-block', 'margin': '5px'}
-            )
-        ], style={'margin-left': '10px'}),
-        dbc.Row(
-            [
-                dbc.Col(html.Div(children=[
-                    dcc.Store(id='intermediate-value-in'),
-                    dcc.Store(id='intermediate-value-out'),
-                    dbc.Row([
-                        dbc.Col(children=[
-                            html.Div(id='in-load', n_clicks=0),
-                            html.Div(id='out-load', n_clicks=0),
-                        ]),
-                    ]),
-                    
-                    dcc.Graph(id='price-graph', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, style=COLUMNFULL),
-                    dcc.Graph(id='price-graph-out', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, style=COLUMNFULL),
-                ])),
-            ]
+        dbc.Row(dbc.Col(html.Div(html.H3("Device Analytics", style=HEADING)))),
+        dcc.Store(id='deviceData'),
+        html.Div(id='in-load'),
+        dcc.Dropdown(
+            id='dropdown',
+            options=[
+                {'label': i, 'value': i} for i in ids
+            ], value=ids[0]
         ),
+
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="frequency", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN),
-                dbc.Col(dcc.Graph(id="frequencyOut", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN)
+                dbc.Col([
+                    html.H4("Overview"),
+                    html.H6("Generic metadata about this particular Pebble tracker"),
+                    html.P(),
+                    html.P(),
+                    html.H5(id='idLatestPebble'),
+                    html.H5(id='timeLatestPebble'),
+                    html.H5(id='nameLatestPebble'),
+                    html.H5(id='addressLatestPebble'),
+                    html.H5(id='ownerLatestPebble'),
+                ], style=COLUMN)
             ]
         ),
+
+        html.Hr(),
+        html.H4("Current Data"),
+        html.H6("Latest data sent by this pebble tracker"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H5(id='snr'),
+                    html.H5(id='vbat'),
+                    html.H5(id='latitude'),
+                    html.H5(id='longitude'),
+                    html.H5(id='gasResistance'),
+                    html.H5(id='temperature'),
+
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(id='pressure'),
+                    html.H5(id='latitude'),
+                    html.H5(id='longitude'),
+                    html.H5(id='gasResistance'),
+                    html.H5(id='humidity'),
+                    html.H5(id='light'),
+                ], style=COLUMN),
+            ]
+        ),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H5("Latest Gyroscope Readings"),
+                    html.H6(id='gyroscope'),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5("Latest Accelerometer Readings"),
+                    html.H6(id='accelerometer'),
+                ], style=COLUMN),
+            ]
+        ),
+
+        dcc.Graph(id='latestLocationPebble', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, style=COLUMNFULL),
+        
         dbc.Row(children=[
                 dbc.Col(dcc.Graph(id="txnFees", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN),
                 dbc.Col(dcc.Graph(id="txnFeesOut", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}), style=COLUMN)
@@ -76,198 +93,46 @@ device = html.Div(
     ]
 )
 
-# Load data
+# Scorecards
 @app.callback(
-    Output('intermediate-value-in', 'data'),
-    [dash.dependencies.Input('in-load', 'n_clicks')])
-def update_output(n_clicks):
-    if(n_clicks == 0):
-        dfIn = loadData()
-        n_clicks = n_clicks+1
-        return dfIn.to_json(date_format='iso', orient='split')
+    Output('deviceData', 'data'),
+    [Input('dropdown', 'value')])
+def update_output(value):
+    deviceData = getDeviceData(value)
+    return deviceData.to_json(date_format='iso', orient='split')
 
-# Load data out
 @app.callback(
-    Output('intermediate-value-out', 'data'),
-    [dash.dependencies.Input('out-load', 'n_clicks')])
-def update_output(n_clicks):
-    if(n_clicks == 0):
-        dfOut = loadDataOut()
-        n_clicks = n_clicks+1
-        return dfOut.to_json(date_format='iso', orient='split')
+    Output("timeLatestPebble", component_property='children'), 
+    Input('dropdown', 'value'),
+    Input('deviceData', 'data'))
+def update_line_chart(value, data):
+    filtered_df = timeDf[timeDf['Id'] == value]
+    return "Last Update Time: {}".format(filtered_df.iloc[0]["Last Data"])
 
-# Inflow Volume
 @app.callback(
-    Output("price-graph", "figure"), 
-    Input(component_id='bridge-select', component_property='value'),
-    Input('intermediate-value-in', 'data'))
-def update_line_chart(value, dfIn):
-    dfInflow = pd.read_json(dfIn, orient='split')
-    dfInflow = filter(value, dfInflow)
+    Output("idLatestPebble", component_property='children'), 
+    [Input('dropdown', 'value')])
+def update_line_chart(value):
+    filtered_df = timeDf[timeDf['Id'] == value]
+    return "ID: {}".format(filtered_df.iloc[0]["Id"])
 
-    fig = px.bar(dfInflow, 
-            x=dfInflow['Date'], 
-            y=dfInflow['Volume'], 
-            color=dfInflow['Network'],
-            color_discrete_sequence=["goldenrod", "#8147E5", "red"],
-       title="Bridge volume inflow to IoTeX (Log Scale)", log_y=True, template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
-    fig.update_xaxes(
-    rangeslider_visible=True,
-    rangeselector=dict(
-            buttons=list([
-                dict(count=1, label="1m", step="month", stepmode="backward"),
-                dict(count=3, label="3m", step="month", stepmode="backward"),
-                dict(count=1, label="YTD", step="year", stepmode="todate"),
-                dict(step="all")
-            ])
-        )
-    )
-    return fig
-
-# Outflow Volume
 @app.callback(
-    Output("price-graph-out", "figure"), 
-    Input(component_id='bridge-select', component_property='value'),
-    Input('intermediate-value-out', 'data'))
-def update_line_chart(value, dfOut):
-    dfOutflow = pd.read_json(dfOut, orient='split')
-    dfOutflow = filter(value, dfOutflow)
+    Output("nameLatestPebble", component_property='children'), 
+    [Input('dropdown', 'value')])
+def update_line_chart(value):
+    filtered_df = timeDf[timeDf['Id'] == value]
+    return "Name: {}".format(filtered_df.iloc[0]["Name"])
 
-    fig = px.bar(dfOutflow, 
-            x=dfOutflow['Date'], 
-            y=dfOutflow['Volume'], 
-            color=dfOutflow['Network'],
-            color_discrete_sequence=["goldenrod", "#8147E5", "red"],
-       title="Bridge volume outflow from IoTeX to other chains (Log Scale)", log_y=True, template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
-    fig.update_xaxes(
-    rangeslider_visible=True,
-    rangeselector=dict(
-            buttons=list([
-                dict(count=1, label="1m", step="month", stepmode="backward"),
-                dict(count=3, label="3m", step="month", stepmode="backward"),
-                dict(count=1, label="YTD", step="year", stepmode="todate"),
-                dict(step="all")
-            ])
-        )
-    )
-    return fig
-
-# Frequency
 @app.callback(
-    Output("frequency", "figure"), 
-    Input(component_id='bridge-select', component_property='value'),
-    Input('intermediate-value-in', 'data'))
-def update_line_chart(value, dfIn):
-    dfIn = pd.read_json(dfIn, orient='split')
-    grouped = filter(value, dfIn)
+    Output("addressLatestPebble", component_property='children'), 
+    [Input('dropdown', 'value')])
+def update_line_chart(value):
+    filtered_df = timeDf[timeDf['Id'] == value]
+    return "Address: {}".format(filtered_df.iloc[0]["Address"])
 
-    fig = px.bar(grouped, 
-            x=grouped['Date'], 
-            y=grouped['Frequency'], 
-            color=grouped['Network'],
-            color_discrete_sequence=["#8147E5", "red", "goldenrod"],
-       title="Unique users count transferring to IoTeX", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
-    fig.update_xaxes(
-    rangeslider_visible=True,
-    rangeselector=dict(
-            buttons=list([
-                dict(count=1, label="1m", step="month", stepmode="backward"),
-                dict(count=3, label="3m", step="month", stepmode="backward"),
-                dict(count=1, label="YTD", step="year", stepmode="todate"),
-                dict(step="all")
-            ])
-        )
-    )
-    return fig
-
-# Frequency
 @app.callback(
-    Output("frequencyOut", "figure"), 
-    Input(component_id='bridge-select', component_property='value'),
-    Input('intermediate-value-out', 'data'))
-def update_line_chart(value, dfIn):
-    dfIn = pd.read_json(dfIn, orient='split')
-    grouped = filter(value, dfIn)
-
-    fig = px.bar(grouped, 
-            x=grouped['Date'], 
-            y=grouped['Frequency'], 
-            color=grouped['Network'],
-            color_discrete_sequence=["#8147E5", "red", "goldenrod"],
-       title="Unique users count transferring out of IoTeX", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
-    fig.update_xaxes(
-    rangeslider_visible=True,
-    rangeselector=dict(
-            buttons=list([
-                dict(count=1, label="1m", step="month", stepmode="backward"),
-                dict(count=3, label="3m", step="month", stepmode="backward"),
-                dict(count=1, label="YTD", step="year", stepmode="todate"),
-                dict(step="all")
-            ])
-        )
-    )
-    return fig
-
-# Transaction Fees
-@app.callback(
-    Output("txnFees", "figure"), 
-    Input(component_id='bridge-select', component_property='value'),
-    Input('intermediate-value-in', 'data'))
-def update_line_chart(value, dfIn):
-    dfIn = pd.read_json(dfIn, orient='split')
-
-    grouped = filter(value, dfIn)
-
-    fig = px.bar(grouped, 
-            x=grouped['Date'], 
-            y=grouped['Mean Txn Fee'], 
-            color=grouped['Network'], log_y = True,
-            color_discrete_sequence=["#8147E5", "red", "goldenrod"],
-       title="Average Transaction Fees by Network into IoTeX (log scale)", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
-    fig.update_xaxes(
-    rangeslider_visible=True,
-    rangeselector=dict(
-            buttons=list([
-                dict(count=1, label="1m", step="month", stepmode="backward"),
-                dict(count=3, label="3m", step="month", stepmode="backward"),
-                dict(count=1, label="YTD", step="year", stepmode="todate"),
-                dict(step="all")
-            ])
-        )
-    )
-    return fig
-
-# Transaction Fees
-@app.callback(
-    Output("txnFeesOut", "figure"), 
-    Input(component_id='bridge-select', component_property='value'),
-    Input('intermediate-value-out', 'data'))
-def update_line_chart(value, dfIn):
-    dfIn = pd.read_json(dfIn, orient='split')
-
-    grouped = filter(value, dfIn)
-
-    fig = px.bar(grouped, 
-            x=grouped['Date'], 
-            y=grouped['Mean Txn Fee'], 
-            color=grouped['Network'], log_y = True,
-            color_discrete_sequence=["#8147E5", "red", "goldenrod"],
-       title="Average Transaction Fees by Network out of IoTeX (log scale)", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
-    fig.update_xaxes(
-    rangeslider_visible=True,
-    rangeselector=dict(
-            buttons=list([
-                dict(count=1, label="1m", step="month", stepmode="backward"),
-                dict(count=3, label="3m", step="month", stepmode="backward"),
-                dict(count=1, label="YTD", step="year", stepmode="todate"),
-                dict(step="all")
-            ])
-        )
-    )
-    return fig
+    Output("ownerLatestPebble", component_property='children'), 
+    [Input('dropdown', 'value')])
+def update_line_chart(value):
+    filtered_df = timeDf[timeDf['Id'] == value]
+    return "Owner: {}".format(filtered_df.iloc[0]["Owner"])
