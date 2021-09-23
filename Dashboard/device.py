@@ -32,7 +32,7 @@ device = html.Div(
             id='dropdown',
             options=[
                 {'label': i, 'value': i} for i in ids
-            ], value=ids[0]
+            ], value=ids[-1]
         ),
 
         dbc.Row(children=[
@@ -266,7 +266,8 @@ def update_line_chart(data):
     Input('deviceData', 'data'))
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
-
+    data = data.head(1)
+    
     fig = px.scatter_geo(data,
                     lat=data["Latitude"],
                     lon=data["Longitude"],
