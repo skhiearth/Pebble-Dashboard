@@ -117,3 +117,6 @@ timeDf['Longitude'] = timeDf['Longitude'].apply(lambda x: x / 10 ** (len((str(x)
 
 timeDf["Longitude"] = pd.to_numeric(timeDf["Longitude"])
 timeDf["Latitude"] = pd.to_numeric(timeDf["Latitude"])
+
+timeDf['Last Data'] = pd.to_datetime(timeDf['Last Data'])
+timeDf["Date"] = timeDf["Last Data"].dt.date

@@ -41,6 +41,10 @@ HEADING = {
     "font-size": "34px"
 }
 
+SUBHEAD = {
+    "text-align": "center"
+}
+
 TEXT = {
     "font-family": 'DM Mono, monospace',
     "font-size": "14px"

@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 from .getDeviceData import getDeviceData
 import datetime
 from datetime import datetime
+import dash_table
 
 # Import styles
 from .style import *
@@ -119,8 +120,69 @@ device = html.Div(
             ]
         ),
 
+        html.Hr(),
+        html.H4("Historic Data"),
+        html.H6("Data table showing all data sent by this Pebble tracker"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col(html.Div(id='tableDiv'), style=COLUMNGREEN),
+            ]
+        ),
+
     ]
 )
+
+# Table
+@app.callback(
+    Output("tableDiv", component_property='children'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    data = data[["Timestamp", "Snr", "Vbat", "Latitude", "Longitude", "Gas Resistance", "Temperature", "Pressure", "Humidity", "Light"]]
+    
+    fig = dash_table.DataTable(
+        id='users',
+        columns=[{"name": i, "id": i} for i in data.columns],
+        data=data.to_dict('records'),
+        page_current= 0,
+        page_size= 10,
+        style_data_conditional=[
+            {
+                'if': {
+                    'column_id': 'Snr',
+                    'filter_query': '{Snr} lt 12'
+                },
+                'backgroundColor': 'red',
+                'color': 'white',
+            },
+            {
+                'if': {
+                    'column_id': 'Snr',
+                    'filter_query': '{Snr} gt 30'
+                },
+                'backgroundColor': '#3D9970',
+                'color': 'white',
+            },
+            {
+                'if': {
+                    'column_id': 'Vbat',
+                    'filter_query': '{Vbat} gt 4'
+                },
+                'backgroundColor': '#3D9970',
+                'color': 'white',
+            },
+            {
+                'if': {
+                    'column_id': 'Vbat',
+                    'filter_query': '{Vbat} lt 3'
+                },
+                'backgroundColor': 'red',
+                'color': 'white',
+            },
+        ]
+    )
+    return fig
 
 # Scorecards
 @app.callback(
