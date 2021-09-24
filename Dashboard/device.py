@@ -11,6 +11,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from .getDeviceData import getDeviceData
+import datetime
+from datetime import datetime
 
 # Import styles
 from .style import *
@@ -32,7 +34,7 @@ device = html.Div(
             id='dropdown',
             options=[
                 {'label': i, 'value': i} for i in ids
-            ], value=ids[-1]
+            ], value="100000000000008"
         ),
 
         dbc.Row(children=[
@@ -285,7 +287,7 @@ def update_line_chart(data):
 
     titletext = "Signal-to-noise ratio <br>Latest on {}: {}".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
     str(data["Snr"].iat[0]))
-    fig = px.bar(data, 
+    fig = px.line(data, 
         x="Timestamp", y="Snr", 
         title=titletext
         )
@@ -293,6 +295,20 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
+    fig['data'][0]['line']['color']="#21625B"
     return fig
 
 @app.callback(
@@ -303,7 +319,7 @@ def update_line_chart(data):
 
     titletext = "Battery Voltage <br>Latest on {}: {}V".format(data["Timestamp"].iat[0].strftime("%d-%m-%Y"),
     str(data["Vbat"].iat[0]))
-    fig = px.bar(data, 
+    fig = px.line(data, 
         x="Timestamp", y="Vbat", 
         title=titletext
         )
@@ -311,6 +327,20 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
+    fig['data'][0]['line']['color']="#21625B"
     return fig
 
 @app.callback(
@@ -329,6 +359,19 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
     fig['data'][0]['line']['color']="#21625B"
     return fig
 
@@ -348,6 +391,19 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
     fig['data'][0]['line']['color']="#21625B"
     return fig
 
@@ -367,6 +423,19 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
     fig['data'][0]['line']['color']="#21625B"
     return fig
 
@@ -386,6 +455,19 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
     fig['data'][0]['line']['color']="#21625B"
     return fig
 
@@ -405,6 +487,19 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
     fig['data'][0]['line']['color']="#21625B"
     return fig
 
@@ -424,5 +519,18 @@ def update_line_chart(data):
         "plot_bgcolor": "#43C9BA",
         "paper_bgcolor": "#43C9BA",
     })
+    if(data.shape[0] > 40):
+        fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1h", step="hour", stepmode="backward"),
+                    dict(count=1, label="1d", step="day", stepmode="backward"),
+                    dict(count=7, label="1w", step="day", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+    )
     fig['data'][0]['line']['color']="#21625B"
     return fig
