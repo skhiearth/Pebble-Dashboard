@@ -102,11 +102,16 @@ device = html.Div(
             ]
         ),
 
+        dcc.Graph(id='temperaturehistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
+
         dbc.Row(children=[
                 dbc.Col(dcc.Graph(id="temperaturehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
                 dbc.Col(dcc.Graph(id="temperature2hist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
             ]
         ),
+
+        dcc.Graph(id='pressurehistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
+        dcc.Graph(id='humidityhistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
 
         dbc.Row(children=[
                 dbc.Col(dcc.Graph(id="pressurehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
@@ -121,7 +126,7 @@ device = html.Div(
         ),
 
         html.Hr(),
-        html.H4("Historic Data"),
+        html.H4("Historic Data Table"),
         html.H6("Data table showing all data sent by this Pebble tracker"),
         html.P(),
 
@@ -337,6 +342,48 @@ def update_line_chart(data):
                     lon=data["Longitude"],
                     title="Latest location of Pebble Device (hover over to see timestamp)",
                     hover_name="Timestamp", template='plotly_dark').update_layout(
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+    return fig
+
+@app.callback(
+    Output("temperaturehistmap", component_property='figure'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    fig = px.scatter_geo(data,
+                    lat=data["Latitude"],
+                    lon=data["Longitude"],
+                    title="Temperature and location over time (hover over to see temperature at that time)",
+                    size="Temperature",
+                    animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+    return fig
+
+@app.callback(
+    Output("humidityhistmap", component_property='figure'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    fig = px.scatter_geo(data,
+                    lat=data["Latitude"],
+                    lon=data["Longitude"],
+                    title="Humidity and location over time (hover over to see humidity at the time)",
+                    size="Humidity",
+                    animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+    return fig
+
+@app.callback(
+    Output("pressurehistmap", component_property='figure'), 
+    Input('deviceData', 'data'))
+def update_line_chart(data):
+    data = pd.read_json(data, orient='split')
+    fig = px.scatter_geo(data,
+                    lat=data["Latitude"],
+                    lon=data["Longitude"],
+                    title="Pressure and location over time (hover over to see pressure at that time)",
+                    size="Pressure",
+                    animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
         {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
     return fig
 
