@@ -120,3 +120,4 @@ timeDf["Latitude"] = pd.to_numeric(timeDf["Latitude"])
 
 timeDf['Last Data'] = pd.to_datetime(timeDf['Last Data'])
 timeDf["Date"] = timeDf["Last Data"].dt.date
+

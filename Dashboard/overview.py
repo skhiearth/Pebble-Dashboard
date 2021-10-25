@@ -1,4 +1,5 @@
 # Import libraries
+from datetime import time
 from json import load
 from os import stat
 from .server import *
@@ -10,6 +11,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import dash_table
 
 # Import styles
 from .style import *
@@ -67,16 +69,26 @@ overview = html.Div(
                     html.H5(id='addressLatest'),
                     html.H5(id='ownerLatest'),
                 ], style=COLUMN),
-                dbc.Col([
-                    html.H4("Pebble tracker with oldest update"),
-                    html.H6("This pebble tracker has not sent a data update to the TruStream network in the longest time out of all registered trackers"),
-                    html.P(),
-                    html.H5(id='timeOldest'),
-                    html.H5(id='idOldest'),
-                    html.H5(id='nameOldest'),
-                    html.H5(id='addressOldest'),
-                    html.H5(id='ownerOldest'),
-                ], style=COLUMN),
+                # dbc.Col([
+                #     html.H4("Pebble tracker with oldest update"),
+                #     html.H6("This pebble tracker has not sent a data update to the TruStream network in the longest time out of all registered trackers"),
+                #     html.P(),
+                #     html.H5(id='timeOldest'),
+                #     html.H5(id='idOldest'),
+                #     html.H5(id='nameOldest'),
+                #     html.H5(id='addressOldest'),
+                #     html.H5(id='ownerOldest'),
+                # ], style=COLUMN),
+            ]
+        ),
+
+        html.Hr(),
+        html.H4("Live Data Table"),
+        html.H6("Data table showing the latest datapoints entering TruStream"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col(html.Div(id='liveTable'), style=COLUMNGREEN),
             ]
         ),
     ]
@@ -207,7 +219,26 @@ def update_line_chart(data):
     fig = px.scatter_geo(timeDf,
                     lat=timeDf["Latitude"],
                     lon=timeDf["Longitude"],
+                    hover_data=["Snr", "Vbat", "Latitude", "Longitude", "Gas Resistance", "Temperature", "Pressure", "Humidity", "Light"],
                     title="Latest location of Pebble Devices (hover over to see ID)",
                     hover_name="Id", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
+    fig.update_geos(projection_type="natural earth")
+    return fig
+
+# Table
+@app.callback(
+    Output("liveTable", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    data = timeDf[["Last Data", "Id", "Snr", "Vbat", "Latitude", "Longitude", "Gas Resistance", "Temperature", "Pressure", "Humidity", "Light"]]
+    
+    fig = dash_table.DataTable(
+        id='users',
+        columns=[{"name": i, "id": i} for i in data.columns],
+        data=data.to_dict('records'),
+        style_table={'overflowX': 'scroll'},
+        page_current= 0,
+        page_size= 10,
+    )
     return fig

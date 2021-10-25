@@ -35,7 +35,7 @@ device = html.Div(
             id='dropdown',
             options=[
                 {'label': i, 'value': i} for i in ids
-            ], value="100000000000008"
+            ], value=ids[0]
         ),
 
         dbc.Row(children=[
@@ -152,6 +152,10 @@ def update_line_chart(data):
         data=data.to_dict('records'),
         page_current= 0,
         page_size= 10,
+        editable=True,
+        sort_action="native",
+        sort_mode="multi",
+        page_action="native",
         style_data_conditional=[
             {
                 'if': {
@@ -341,8 +345,10 @@ def update_line_chart(data):
                     lat=data["Latitude"],
                     lon=data["Longitude"],
                     title="Latest location of Pebble Device (hover over to see timestamp)",
+                    hover_data=["Snr", "Vbat", "Latitude", "Longitude", "Gas Resistance", "Temperature", "Pressure", "Humidity", "Light"],
                     hover_name="Timestamp", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
+    fig.update_geos(projection_type="natural earth")
     return fig
 
 @app.callback(
@@ -356,7 +362,7 @@ def update_line_chart(data):
                     title="Temperature and location over time (hover over to see temperature at that time)",
                     size="Temperature",
                     animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
     return fig
 
 @app.callback(
@@ -370,7 +376,7 @@ def update_line_chart(data):
                     title="Humidity and location over time (hover over to see humidity at the time)",
                     size="Humidity",
                     animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
     return fig
 
 @app.callback(
@@ -384,7 +390,7 @@ def update_line_chart(data):
                     title="Pressure and location over time (hover over to see pressure at that time)",
                     size="Pressure",
                     animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525'})
+        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
     return fig
 
 # Historic
