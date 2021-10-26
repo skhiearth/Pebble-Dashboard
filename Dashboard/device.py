@@ -42,6 +42,7 @@ device = html.Div(
                 dbc.Col([
                     html.H4("Overview"),
                     html.H6("Generic metadata about this particular Pebble tracker"),
+                    html.Hr(style=RULE),
                     html.P(),
                     html.P(),
                     html.H5(id='idLatestPebble'),

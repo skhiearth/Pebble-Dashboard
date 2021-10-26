@@ -86,7 +86,6 @@ def getDeviceData(imei):
 
             deviceDf.loc[len(deviceDf)] = data
 
-    print(deviceDf)
     deviceDf['Latitude'] = deviceDf['Latitude'].apply(lambda x: x / 10 ** (len((str(x))) - 2))
     deviceDf['Longitude'] = deviceDf['Longitude'].apply(lambda x: x / 10 ** (len((str(x))) - 2))
 

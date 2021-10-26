@@ -27,10 +27,11 @@ overview = html.Div(
         html.Hr(),
 
         html.P(),
-
+        
         dbc.Row(children=[
                 dbc.Col([
                     html.H4("Devices"),
+                    html.Hr(style=RULE),
                     html.P(),
                     html.H5(id='totalDevices'),
                     html.H5(id='confirmedDevices'),
@@ -38,8 +39,10 @@ overview = html.Div(
                     html.H5(id='activeData'),
                     html.H5(id='noData'),
                 ], style=COLUMN),
+
                 dbc.Col([
                     html.H4("Users with most devices"),
+                    html.Hr(style=RULE),
                     html.P(),
                     html.H5(id='firstDevices'),
                     html.H5(id='secondDevices'),
@@ -62,6 +65,7 @@ overview = html.Div(
                 dbc.Col([
                     html.H4("Pebble tracker with latest update"),
                     html.H6("This pebble tracker has sent the latest data update to the TruStream network out of all registered trackers"),
+                    html.Hr(style=RULE),
                     html.P(),
                     html.H5(id='timeLatest'),
                     html.H5(id='idLatest'),
@@ -125,6 +129,23 @@ def update_line_chart(data):
     Input('statusData', 'data'))
 def update_line_chart(data):
     return "Devices with no data yet: {}".format(len(statusDf[statusDf["Raw Data"] == "No Data"]))
+
+@app.callback(
+    Output("piechart", component_property='figure'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    labels = ['Confirmed','Pending','Active','No Data']
+    values = [len(statusDf[statusDf["Status"] == 2]), 
+    len(statusDf[statusDf["Status"] == 1]), 
+    len(statusDf[statusDf["Raw Data"] != "No Data"]), 
+    len(statusDf[statusDf["Raw Data"] == "No Data"])]
+
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+    fig.update_layout({
+        "paper_bgcolor": "#262525",
+        "showlegend": False
+    })
+    return fig
 
 
 # Owner Frequency

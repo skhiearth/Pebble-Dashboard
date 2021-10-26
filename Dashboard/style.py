@@ -61,8 +61,9 @@ COLUMN = {
     "display": "inline-block",
     "padding": "10px",
     "margin": "20px",
-    "border-radius": "25px",
+    "border-radius": "8px",
     "background-color": "#262525",
+    "box-shadow": "0px 0px 14px 4px",
     "color": "white"
 }
 
@@ -71,8 +72,9 @@ COLUMNGREEN = {
     "display": "inline-block",
     "padding": "10px",
     "margin": "20px",
-    "border-radius": "25px",
+    "border-radius": "8px",
     "background-color": "#43C9BA",
+    "box-shadow": "0px 0px 14px 0px",
     "color": "#21625B"
 }
 
@@ -80,13 +82,24 @@ COLUMNFULL = {
     "width": "100%",
     "display": "inline-block",
     "padding": "10px",
-    "border-radius": "25px",
+    "border-radius": "8px",
+    "box-shadow": "0px 0px 14px 0px",
     "background-color": "#262525",
+}
+
+SUBGRAPHS = {
+    "height": "280px",
+    "width": "100%",
 }
 
 GRAPHS = {
     "width": "100%",
 }
+
+RULE = {
+    "border-color": "white",
+}
+
 
 TEXT = {
     "padding-left": "8px",
