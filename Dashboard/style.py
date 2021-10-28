@@ -67,6 +67,17 @@ COLUMN = {
     "color": "white"
 }
 
+COLUMN3 = {
+    "width": "30%",
+    "display": "inline-block",
+    "padding": "10px",
+    "margin": "20px",
+    "border-radius": "12px",
+    "background-color": "#FFFFFF",
+    "box-shadow": "0px 0px 14px 0px black",
+    "color": "#51535E"
+}
+
 COLUMNGREEN = {
     "width": "40%",
     "display": "inline-block",
@@ -85,6 +96,7 @@ COLUMNFULL = {
     "border-radius": "8px",
     "box-shadow": "0px 0px 14px 0px",
     "background-color": "#262525",
+    "color": "#51535E"
 }
 
 SUBGRAPHS = {
@@ -99,7 +111,6 @@ GRAPHS = {
 RULE = {
     "border-color": "white",
 }
-
 
 TEXT = {
     "padding-left": "8px",

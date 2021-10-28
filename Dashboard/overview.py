@@ -30,24 +30,35 @@ overview = html.Div(
         
         dbc.Row(children=[
                 dbc.Col([
-                    html.H4("Devices"),
+                    html.H6("Device Stats"),
                     html.Hr(style=RULE),
                     html.P(),
-                    html.H5(id='totalDevices'),
-                    html.H5(id='confirmedDevices'),
-                    html.H5(id='pendingDevices'),
-                    html.H5(id='activeData'),
-                    html.H5(id='noData'),
-                ], style=COLUMN),
+                    html.H6(id='totalDevices'),
+                    html.H6(id='confirmedDevices'),
+                    html.H6(id='pendingDevices'),
+                    html.H6(id='activeData'),
+                    html.H6(id='noData'),
+                ], style=COLUMN3),
 
                 dbc.Col([
-                    html.H4("Users with most devices"),
+                    html.H6("Owner Stats"),
                     html.Hr(style=RULE),
                     html.P(),
-                    html.H5(id='firstDevices'),
-                    html.H5(id='secondDevices'),
-                    html.H5(id='thirdDevices'),
-                ], style=COLUMN),
+                    html.H6(id='firstDevices'),
+                    html.H6(id='secondDevices'),
+                    html.H6(id='thirdDevices'),
+                ], style=COLUMN3),
+
+                dbc.Col([
+                    html.H6("Last data from"),
+                    html.Hr(style=RULE),
+                    html.P(),
+                    html.H6(id='timeLatest'),
+                    html.H6(id='idLatest'),
+                    html.H6(id='nameLatest'),
+                    html.H6(id='addressLatest'),
+                    html.H6(id='ownerLatest'),
+                ], style=COLUMN3),
             ]
         ),
 
@@ -61,32 +72,6 @@ overview = html.Div(
 
         html.P(),
 
-        dbc.Row(children=[
-                dbc.Col([
-                    html.H4("Pebble tracker with latest update"),
-                    html.H6("This pebble tracker has sent the latest data update to the TruStream network out of all registered trackers"),
-                    html.Hr(style=RULE),
-                    html.P(),
-                    html.H5(id='timeLatest'),
-                    html.H5(id='idLatest'),
-                    html.H5(id='nameLatest'),
-                    html.H5(id='addressLatest'),
-                    html.H5(id='ownerLatest'),
-                ], style=COLUMN),
-                # dbc.Col([
-                #     html.H4("Pebble tracker with oldest update"),
-                #     html.H6("This pebble tracker has not sent a data update to the TruStream network in the longest time out of all registered trackers"),
-                #     html.P(),
-                #     html.H5(id='timeOldest'),
-                #     html.H5(id='idOldest'),
-                #     html.H5(id='nameOldest'),
-                #     html.H5(id='addressOldest'),
-                #     html.H5(id='ownerOldest'),
-                # ], style=COLUMN),
-            ]
-        ),
-
-        html.Hr(),
         html.H4("Live Data Table"),
         html.H6("Data table showing the latest datapoints entering TruStream"),
         html.P(),
@@ -154,21 +139,21 @@ def update_line_chart(data):
     Input('statusData', 'data'))
 def update_line_chart(data):
     return "{} devices: {}".format(statusDf.Owner.value_counts()[0],
-    statusDf.Owner.value_counts()[:4].index.tolist()[0])
+    statusDf.Owner.value_counts()[:4].index.tolist()[0][0:6] + "..." + statusDf.Owner.value_counts()[:4].index.tolist()[0][-6:])
 
 @app.callback(
     Output("secondDevices", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
     return "{} devices: {}".format(statusDf.Owner.value_counts()[1],
-    statusDf.Owner.value_counts()[:4].index.tolist()[1])
+    statusDf.Owner.value_counts()[:4].index.tolist()[1][0:6] + "..." + statusDf.Owner.value_counts()[:4].index.tolist()[1][-6:])
 
 @app.callback(
     Output("thirdDevices", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
     return "{} devices: {}".format(statusDf.Owner.value_counts()[2],
-    statusDf.Owner.value_counts()[:4].index.tolist()[2])
+    statusDf.Owner.value_counts()[:4].index.tolist()[2][0:6] + "..." + statusDf.Owner.value_counts()[:4].index.tolist()[2][-6:])
 
 
 # Oldest/Latest
@@ -212,7 +197,7 @@ def update_line_chart(data):
     Output("addressLatest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Address: {}".format(timeDf.iloc[0]["Address"])
+    return "Address: {}".format(timeDf.iloc[0]["Address"][0:6] + "..." + timeDf.iloc[0]["Address"][-6:])
 
 @app.callback(
     Output("addressOldest", component_property='children'), 
@@ -224,7 +209,7 @@ def update_line_chart(data):
     Output("ownerLatest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Owner: {}".format(timeDf.iloc[0]["Owner"])
+    return "Owner: {}".format(timeDf.iloc[0]["Owner"][0:6] + "..." + timeDf.iloc[0]["Owner"][-6:])
 
 @app.callback(
     Output("ownerOldest", component_property='children'), 

@@ -115,7 +115,166 @@ sensor = html.Div(
                 ], style=COLUMN),
             ]
         ),
+
+        html.Hr(),
+        html.H4("Temperature"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H5(html.Center("Minimum")),
+                    html.Center(html.H1(id="tempmin")),
+                    html.H5(html.Center("deg C")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Maximum")),
+                    html.Center(html.H1(id="tempmax")),
+                    html.H5(html.Center("deg C")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mean")),
+                    html.Center(html.H1(id="tempmean")),
+                    html.H5(html.Center("deg C")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Median")),
+                    html.Center(html.H1(id="tempmedian")),
+                    html.H5(html.Center("deg C")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mode")),
+                    html.Center(html.H1(id="tempmode")),
+                    html.H5(html.Center("deg C")),
+                ], style=COLUMN),
+            ]
+        ),
+
+        html.Hr(),
+        html.H4("Pressure"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H5(html.Center("Minimum")),
+                    html.Center(html.H1(id="premin")),
+                    html.H5(html.Center("hPa")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Maximum")),
+                    html.Center(html.H1(id="premax")),
+                    html.H5(html.Center("hPa")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mean")),
+                    html.Center(html.H1(id="premean")),
+                    html.H5(html.Center("hPa")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Median")),
+                    html.Center(html.H1(id="premedian")),
+                    html.H5(html.Center("hPa")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mode")),
+                    html.Center(html.H1(id="premode")),
+                    html.H5(html.Center("hPa")),
+                ], style=COLUMN),
+            ]
+        ),
+
+
+        html.Hr(),
+        html.H4("Gas Resistance"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H5(html.Center("Minimum")),
+                    html.Center(html.H1(id="gasmin")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Maximum")),
+                    html.Center(html.H1(id="gasmax")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mean")),
+                    html.Center(html.H1(id="gasmean")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Median")),
+                    html.Center(html.H1(id="gasmedian")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mode")),
+                    html.Center(html.H1(id="gasmode")),
+                ], style=COLUMN),
+            ]
+        ),
+
+        html.Hr(),
+        html.H4("Humidity"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H5(html.Center("Minimum")),
+                    html.Center(html.H1(id="hummin")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Maximum")),
+                    html.Center(html.H1(id="hummax")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mean")),
+                    html.Center(html.H1(id="hummean")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Median")),
+                    html.Center(html.H1(id="hummedian")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mode")),
+                    html.Center(html.H1(id="hummode")),
+                ], style=COLUMN),
+            ]
+        ),
+
+
+        html.Hr(),
+        html.H4("Light"),
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H5(html.Center("Minimum")),
+                    html.Center(html.H1(id="limin")),
+                    html.H5(html.Center("lux")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Maximum")),
+                    html.Center(html.H1(id="limax")),
+                    html.H5(html.Center("lux")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mean")),
+                    html.Center(html.H1(id="limean")),
+                    html.H5(html.Center("lux")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Median")),
+                    html.Center(html.H1(id="limedian")),
+                    html.H5(html.Center("lux")),
+                ], style=COLUMN),
+                dbc.Col([
+                    html.H5(html.Center("Mode")),
+                    html.Center(html.H1(id="limode")),
+                    html.H5(html.Center("lux")),
+                ], style=COLUMN),
+            ]
+        ),
     ]
+
+    
 )
 
 @app.callback(
@@ -244,3 +403,262 @@ def update_line_chart(data, start_date, end_date, value):
     if(value != ""):
         sensorDf = sensorDf[sensorDf["Owner"] == value]
     return "{}".format(sensorDf["Vbat"].mode()[0])
+
+# Temperature
+@app.callback(
+    Output("tempmin", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Temperature"].min())
+
+@app.callback(
+    Output("tempmax", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Temperature"].max())
+
+@app.callback(
+    Output("tempmean", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Temperature"].mean(), 2))
+
+@app.callback(
+    Output("tempmedian", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Temperature"].median(), 2))
+
+@app.callback(
+    Output("tempmode", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Temperature"].mode()[0])
+
+
+# Pressure
+@app.callback(
+    Output("premin", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Pressure"].min())
+
+@app.callback(
+    Output("premax", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Pressure"].max())
+
+@app.callback(
+    Output("premean", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Pressure"].mean(), 2))
+
+@app.callback(
+    Output("premedian", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Pressure"].median(), 2))
+
+@app.callback(
+    Output("premode", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Pressure"].mode()[0])
+
+
+# Gas Resistance
+@app.callback(
+    Output("gasmin", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Gas Resistance"].min())
+
+@app.callback(
+    Output("gasmax", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Gas Resistance"].max())
+
+@app.callback(
+    Output("gasmean", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Gas Resistance"].mean(), 2))
+
+@app.callback(
+    Output("gasmedian", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Gas Resistance"].median(), 2))
+
+@app.callback(
+    Output("gasmode", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Gas Resistance"].mode()[0])
+
+
+# Humidity
+@app.callback(
+    Output("hummin", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Humidity"].min())
+
+@app.callback(
+    Output("hummax", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Humidity"].max())
+
+@app.callback(
+    Output("hummean", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Humidity"].mean(), 2))
+
+@app.callback(
+    Output("hummedian", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Humidity"].median(), 2))
+
+@app.callback(
+    Output("hummode", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Humidity"].mode()[0])
+
+
+# Light
+@app.callback(
+    Output("limin", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Light"].min())
+
+@app.callback(
+    Output("limax", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Light"].max())
+
+@app.callback(
+    Output("limean", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Light"].mean(), 2))
+
+@app.callback(
+    Output("limedian", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(round(sensorDf["Light"].median(), 2))
+
+@app.callback(
+    Output("limode", component_property='children'), 
+    Input('intermediate-value-in-00', 'data'), Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'), Input('dropdown', 'value'))
+def update_line_chart(data, start_date, end_date, value):
+    sensorDf = pd.read_json(data, orient='split')
+    if(value != ""):
+        sensorDf = sensorDf[sensorDf["Owner"] == value]
+    return "{}".format(sensorDf["Light"].mode()[0])
