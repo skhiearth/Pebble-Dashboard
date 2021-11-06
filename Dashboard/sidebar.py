@@ -47,13 +47,25 @@ sidebar = html.Div(
         html.P(),
         html.P(),
 
+        dbc.Row([
+                dbc.Col(html.H6("Made by The Misfits")),
+            ],
+            align="center",
+            no_gutters=True, style=ROWW
+        ), 
+
+        html.A("skhiearth", href="https://skhiearth.xyz", target="_blank", style=ROWW),
+        html.A("⚡", style=ROWW),
+        html.A("simmsss", href="https://simmsss.github.io", target="_blank", style=ROWW),
+
         dbc.Row(
             [
-                dbc.Col(html.H6("Made by The Misfits for Grants Round 11 Hackathon by Gitcoin and IoTeX")),
+                dbc.Col(html.H6("for Grants Round 11 Hackathon by Gitcoin and IoTeX")),
             ],
             align="center",
             no_gutters=True,
         ), 
+
     ],
     style=SIDEBAR_STYLE
 )

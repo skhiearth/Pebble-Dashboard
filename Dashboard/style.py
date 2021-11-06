@@ -60,6 +60,11 @@ GREYSUBHEADINGSMALL = {
     "font-size": "14px"
 }
 
+ROWW = {
+    "margin": "0px",
+    "padding": "0px",
+}
+
 CONTENT_STYLE = {
     "margin-top": "58px",
     "margin-left": "16rem",
