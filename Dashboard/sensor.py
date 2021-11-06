@@ -613,7 +613,7 @@ def update_line_chart(data, start_date, end_date, value):
     sensorDf = pd.read_json(data, orient='split')
     if(value != ""):
         sensorDf = sensorDf[sensorDf["Owner"] == value]
-    return "{}".format(sensorDf["Light"].min())
+    return "{}".format(round(sensorDf["Light"].min(), 2))
 
 @app.callback(
     Output("limax", component_property='children'), 
@@ -623,7 +623,7 @@ def update_line_chart(data, start_date, end_date, value):
     sensorDf = pd.read_json(data, orient='split')
     if(value != ""):
         sensorDf = sensorDf[sensorDf["Owner"] == value]
-    return "{}".format(sensorDf["Light"].max())
+    return "{}".format(round(sensorDf["Light"].max(), 2))
 
 @app.callback(
     Output("limean", component_property='children'), 
@@ -653,4 +653,4 @@ def update_line_chart(data, start_date, end_date, value):
     sensorDf = pd.read_json(data, orient='split')
     if(value != ""):
         sensorDf = sensorDf[sensorDf["Owner"] == value]
-    return "{}".format(sensorDf["Light"].mode()[0])
+    return "{}".format(round(sensorDf["Light"].mode()[0], 2))

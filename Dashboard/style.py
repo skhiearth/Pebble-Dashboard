@@ -31,7 +31,7 @@ HEADER = {
 }
 
 GREENHEADING = {
-    "color": "#00DEB1"
+    "color": "#00DFB3"
 }
 
 GREYSUBHEADING = {
@@ -46,7 +46,7 @@ GREYSUBHEADING2 = {
 
 GREENHEADINGSMALL = {
     "font-size": "14px",
-    "color": "#00DEB1"
+    "color": "#00DFB3"
 }
 
 GREENHEADINGSMALL2 = {
@@ -143,7 +143,7 @@ COLUMNGREEN = {
     "padding": "10px",
     "margin": "20px",
     "border-radius": "8px",
-    "background-color": "#43C9BA",
+    "background-color": "#00DFB3",
     "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
     "color": "#21625B"
 }
@@ -154,7 +154,7 @@ COLUMNGREEN2 = {
     "padding": "10px",
     "margin": "20px",
     "border-radius": "8px",
-    "background-color": "#43C9BA",
+    "background-color": "#00DFB3",
     "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
     "color": "#21625B"
 }
