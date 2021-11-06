@@ -44,8 +44,6 @@ device = html.Div(
         ]),
         
 
-        
-
         dbc.Row(children=[
                 dbc.Col([
                     html.H6("Device Address", style=HEADER),

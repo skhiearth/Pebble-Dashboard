@@ -25,7 +25,8 @@ FOOTER_STYLE = {
 }
 
 HEADER = {
-    "font-weight": "600"
+    "font-weight": "600",
+    "font-size": "16px"
 }
 
 GREENHEADING = {
@@ -37,8 +38,19 @@ GREYSUBHEADING = {
     "font-size": "28px"
 }
 
+GREYSUBHEADING2 = {
+    "color": "#51535E",
+    "font-size": "34px"
+}
+
 GREENHEADINGSMALL = {
     "font-size": "14px",
+    "color": "#00DEB1"
+}
+
+GREENHEADINGSMALL2 = {
+    "font-size": "14px",
+    "font-weight": "600",
     "color": "#00DEB1"
 }
 

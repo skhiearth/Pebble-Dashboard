@@ -21,255 +21,247 @@ ids = timeDf.Owner.unique()
 sensor = html.Div(
     [
         dcc.Store(id='intermediate-value-in-00'),
-        dbc.Row(dbc.Col(html.Div(html.H3("Sensor Analytics", style=HEADING)))),
-        html.H5("Intelligent insights derived from current data to get sense of current health of devices"),
         dcc.Store(id='sensorData'),
         html.Div(id='in-load-sensor'),
 
         html.P(),
+
+        dbc.Row(children=[
+            dbc.Col([
+                html.H6("Filter by device owner: ", style=HEADER),
+                dcc.Dropdown(
+                    id='dropdown',
+                    options=[
+                        {'label': i, 'value': i} for i in ids
+                    ], value=""
+                ),
+            ], style = COLUMNGREEN),
+            dbc.Col([
+                html.H5("Filter by date range: ", style=HEADER),
+                dcc.DatePickerRange(
+                    id='my-date-picker-range',
+                    min_date_allowed=date(2021, 9, 1),
+                    max_date_allowed=date.today(),
+                    initial_visible_month=date.today(),
+                    end_date=date.today()
+                ),
+                html.Div(id='output-container-date-picker-range'),
+            ], style = COLUMNGREEN),
+        ]),
+
         html.P(),
-
-        html.H6("Filter by date range: "),
-
-        dcc.DatePickerRange(
-            id='my-date-picker-range',
-            min_date_allowed=date(2021, 9, 1),
-            max_date_allowed=date.today(),
-            initial_visible_month=date.today(),
-            end_date=date.today()
-        ),
-        html.Div(id='output-container-date-picker-range'),
-
-
         html.P(),
-        html.P(),
-        html.P(),
-        html.P(),
-
-        html.H6("Filter by device owner: "),
-
-        dcc.Dropdown(
-            id='dropdown',
-            options=[
-                {'label': i, 'value': i} for i in ids
-            ], value=""
-        ),
-
-        html.Hr(),
-        html.H4("Signal-to-noise ratio"),
-        html.P(),
+        html.H4("Signal-to-noise ratio", style=HEADER),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(html.Center("Minimum")),
-                    html.Center(html.H1(id="snrmin")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="snrmin", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Minimum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Maximum")),
-                    html.Center(html.H1(id="snrmax")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="snrmax", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Maximum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mean")),
-                    html.Center(html.H1(id="snrmean")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="snrmean", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Mean", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Median")),
-                    html.Center(html.H1(id="snrmedian")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="snrmedian", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Median", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mode")),
-                    html.Center(html.H1(id="snrmode")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="snrmode", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Mode", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
             ]
         ),
 
-        html.Hr(),
-        html.H4("Battery Voltage"),
         html.P(),
+        html.P(),
+        html.H4("Battery Voltage", style=HEADER),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(html.Center("Minimum")),
-                    html.Center(html.H1(id="vbatmin")),
+                    html.Center(html.H1(id="vbatmin", style=GREYSUBHEADING2)),
                     html.H5(html.Center("Volts")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Minimum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Maximum")),
-                    html.Center(html.H1(id="vbatmax")),
+                    html.Center(html.H1(id="vbatmax", style=GREYSUBHEADING2)),
                     html.H5(html.Center("Volts")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Maximum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mean")),
-                    html.Center(html.H1(id="vbatmean")),
+                    html.Center(html.H1(id="vbatmean", style=GREYSUBHEADING2)),
                     html.H5(html.Center("Volts")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mean", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Median")),
-                    html.Center(html.H1(id="vbatmedian")),
+                    html.Center(html.H1(id="vbatmedian", style=GREYSUBHEADING2)),
                     html.H5(html.Center("Volts")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Median", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mode")),
-                    html.Center(html.H1(id="vbatmode")),
+                    html.Center(html.H1(id="vbatmode", style=GREYSUBHEADING2)),
                     html.H5(html.Center("Volts")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mode", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
             ]
         ),
 
-        html.Hr(),
-        html.H4("Temperature"),
         html.P(),
+        html.P(),
+        html.H4("Temperature", style=HEADER),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(html.Center("Minimum")),
-                    html.Center(html.H1(id="tempmin")),
+                    html.Center(html.H1(id="tempmin", style=GREYSUBHEADING2)),
                     html.H5(html.Center("deg C")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Minimum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Maximum")),
-                    html.Center(html.H1(id="tempmax")),
+                    html.Center(html.H1(id="tempmax", style=GREYSUBHEADING2)),
                     html.H5(html.Center("deg C")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Maximum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mean")),
-                    html.Center(html.H1(id="tempmean")),
+                    html.Center(html.H1(id="tempmean", style=GREYSUBHEADING2)),
                     html.H5(html.Center("deg C")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mean", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Median")),
-                    html.Center(html.H1(id="tempmedian")),
+                    html.Center(html.H1(id="tempmedian", style=GREYSUBHEADING2)),
                     html.H5(html.Center("deg C")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Median", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mode")),
-                    html.Center(html.H1(id="tempmode")),
+                    html.Center(html.H1(id="tempmode", style=GREYSUBHEADING2)),
                     html.H5(html.Center("deg C")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mode", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
             ]
         ),
 
-        html.Hr(),
-        html.H4("Pressure"),
         html.P(),
+        html.P(),
+        html.H4("Pressure", style=HEADER),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(html.Center("Minimum")),
-                    html.Center(html.H1(id="premin")),
+                    html.Center(html.H1(id="premin", style=GREYSUBHEADING2)),
                     html.H5(html.Center("hPa")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Minimum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Maximum")),
-                    html.Center(html.H1(id="premax")),
+                    html.Center(html.H1(id="premax", style=GREYSUBHEADING2)),
                     html.H5(html.Center("hPa")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Maximum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mean")),
-                    html.Center(html.H1(id="premean")),
+                    html.Center(html.H1(id="premean", style=GREYSUBHEADING2)),
                     html.H5(html.Center("hPa")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mean", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Median")),
-                    html.Center(html.H1(id="premedian")),
+                    html.Center(html.H1(id="premedian", style=GREYSUBHEADING2)),
                     html.H5(html.Center("hPa")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Median", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mode")),
-                    html.Center(html.H1(id="premode")),
+                    html.Center(html.H1(id="premode", style=GREYSUBHEADING2)),
                     html.H5(html.Center("hPa")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mode", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
             ]
         ),
 
-
-        html.Hr(),
-        html.H4("Gas Resistance"),
         html.P(),
+        html.P(),
+        html.H4("Gas Resistance", style=HEADER),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(html.Center("Minimum")),
-                    html.Center(html.H1(id="gasmin")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="gasmin", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Minimum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Maximum")),
-                    html.Center(html.H1(id="gasmax")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="gasmax", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Maximum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mean")),
-                    html.Center(html.H1(id="gasmean")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="gasmean", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Mean", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Median")),
-                    html.Center(html.H1(id="gasmedian")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="gasmedian", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Median", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mode")),
-                    html.Center(html.H1(id="gasmode")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="gasmode", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Mode", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
             ]
         ),
 
-        html.Hr(),
-        html.H4("Humidity"),
         html.P(),
+        html.P(),
+        html.H4("Humidity", style=HEADER),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(html.Center("Minimum")),
-                    html.Center(html.H1(id="hummin")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="hummin", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Minimum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Maximum")),
-                    html.Center(html.H1(id="hummax")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="hummax", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Maximum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mean")),
-                    html.Center(html.H1(id="hummean")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="hummean", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Mean", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Median")),
-                    html.Center(html.H1(id="hummedian")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="hummedian", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Median", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mode")),
-                    html.Center(html.H1(id="hummode")),
-                ], style=COLUMN),
+                    html.Center(html.H1(id="hummode", style=GREYSUBHEADING2)),
+                    html.H5(html.Center("Mode", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
             ]
         ),
 
-
-        html.Hr(),
-        html.H4("Light"),
         html.P(),
+        html.P(),
+        html.H4("Light", style=HEADER),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(html.Center("Minimum")),
-                    html.Center(html.H1(id="limin")),
+                    html.Center(html.H1(id="limin", style=GREYSUBHEADING2)),
                     html.H5(html.Center("lux")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Minimum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Maximum")),
-                    html.Center(html.H1(id="limax")),
+                    html.Center(html.H1(id="limax", style=GREYSUBHEADING2)),
                     html.H5(html.Center("lux")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Maximum", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mean")),
-                    html.Center(html.H1(id="limean")),
+                    html.Center(html.H1(id="limean", style=GREYSUBHEADING2)),
                     html.H5(html.Center("lux")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mean", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Median")),
-                    html.Center(html.H1(id="limedian")),
+                    html.Center(html.H1(id="limedian", style=GREYSUBHEADING2)),
                     html.H5(html.Center("lux")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Median", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
                 dbc.Col([
-                    html.H5(html.Center("Mode")),
-                    html.Center(html.H1(id="limode")),
+                    html.Center(html.H1(id="limode", style=GREYSUBHEADING2)),
                     html.H5(html.Center("lux")),
-                ], style=COLUMN),
+                    html.H5(html.Center("Mode", style=GREENHEADINGSMALL2)),
+                ], style=COLUMN3),
             ]
         ),
     ]

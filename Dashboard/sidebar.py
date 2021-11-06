@@ -37,6 +37,7 @@ sidebar = html.Div(
                 dbc.NavLink("Overview", href="/", active="exact", style=NAVLINK),
                 dbc.NavLink("Devices", href="/device", active="exact", style=NAVLINK),
                 dbc.NavLink("Sensor Analytics", href="/sensor", active="exact", style=NAVLINK),
+                dbc.NavLink("About TruStream",  target="_blank", href="https://iotex.gitbook.io/trustream", active="exact", style=NAVLINK),
             ],
             vertical=True,
             pills=True,
