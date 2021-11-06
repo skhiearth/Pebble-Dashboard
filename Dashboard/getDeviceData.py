@@ -94,5 +94,49 @@ def getDeviceData(imei):
 
     deviceDf.sort_values(by='Timestamp', ascending = False, inplace=True)
     deviceDf.reset_index(inplace=True)
+
+    deviceDf = deviceDf.replace(to_replace="No Data", value = 0)
+
+    deviceDf["Snr"] = pd.to_numeric(deviceDf["Snr"])
+    deviceDf["Snr"] = deviceDf["Snr"] / 100
+
+    deviceDf["Vbat"] = pd.to_numeric(deviceDf["Vbat"])
+    deviceDf["Vbat"] = deviceDf["Vbat"] / 100
+
+    deviceDf["Gas Resistance"] = pd.to_numeric(deviceDf["Gas Resistance"])
+    deviceDf["Gas Resistance"] = deviceDf["Gas Resistance"] / 100
+
+    deviceDf["Temperature"] = pd.to_numeric(deviceDf["Temperature"])
+    deviceDf["Temperature"] = deviceDf["Temperature"] / 100
+
+    deviceDf["Temperature2"] = pd.to_numeric(deviceDf["Temperature2"])
+    deviceDf["Temperature2"] = deviceDf["Temperature2"] / 100
+
+    deviceDf["Pressure"] = pd.to_numeric(deviceDf["Pressure"])
+    deviceDf["Pressure"] = deviceDf["Pressure"] / 100
+
+    deviceDf["Humidity"] = pd.to_numeric(deviceDf["Humidity"])
+    deviceDf["Humidity"] = deviceDf["Humidity"] / 100
+
+    deviceDf["Light"] = pd.to_numeric(deviceDf["Light"])
+    deviceDf["Light"] = deviceDf["Light"] / 100
+
+    deviceDf["Gyroscope1"] = pd.to_numeric(deviceDf["Gyroscope1"])
+    deviceDf["Gyroscope1"] = deviceDf["Gyroscope1"] / 100
+
+    deviceDf["Gyroscope2"] = pd.to_numeric(deviceDf["Gyroscope2"])
+    deviceDf["Gyroscope2"] = deviceDf["Gyroscope2"] / 100
+
+    deviceDf["Gyroscope3"] = pd.to_numeric(deviceDf["Gyroscope3"])
+    deviceDf["Gyroscope3"] = deviceDf["Gyroscope3"] / 100
+
+    deviceDf["Accelerometer1"] = pd.to_numeric(deviceDf["Accelerometer1"])
+    deviceDf["Accelerometer1"] = deviceDf["Accelerometer1"] / 100
+
+    deviceDf["Accelerometer2"] = pd.to_numeric(deviceDf["Accelerometer2"])
+    deviceDf["Accelerometer2"] = deviceDf["Accelerometer2"] / 100
+
+    deviceDf["Accelerometer3"] = pd.to_numeric(deviceDf["Accelerometer3"])
+    deviceDf["Accelerometer3"] = deviceDf["Accelerometer3"] / 100
     
     return deviceDf

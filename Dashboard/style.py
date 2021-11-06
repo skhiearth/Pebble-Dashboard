@@ -3,7 +3,8 @@ NAVBAR_STYLE = {
     "top": 0,
     "left": 0,
     "right": 0,
-    "background-image": "linear-gradient(to right, #5ECCF3, #00DFB3)"
+    "background-image": "linear-gradient(to right, #5ECCF3, #00DFB3)",
+    "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
 }
 
 SIDEBAR_STYLE = {
@@ -17,7 +18,7 @@ SIDEBAR_STYLE = {
     "padding": "2rem 1rem",
     "margin-top": "48px",
     "background-color": "#FFFFFF",
-    "box-shadow": "4px 4px 8px #888888"
+    "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
 }
 
 FOOTER_STYLE = {
@@ -66,6 +67,10 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
+SUPERSTYLE = {
+    "background-color": "#F2F3F8"
+}
+
 NAVLINK = {
     "margin-top": "12px",
 }
@@ -97,7 +102,7 @@ COLUMN = {
     "margin": "20px",
     "border-radius": "8px",
     "background-color": "#262525",
-    "box-shadow": "0px 0px 14px 4px",
+    "box-shadow": "0px 0px 20px 4px rgb(0 0 0 / 0.1)",
     "color": "white"
 }
 
@@ -108,7 +113,7 @@ COLUMN3 = {
     "margin": "20px",
     "border-radius": "12px",
     "background-color": "#FFFFFF",
-    "box-shadow": "0px 0px 4pt 0px #51535E",
+    "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
     "color": "#51535E",
 }
 
@@ -119,7 +124,7 @@ COLUMN4 = {
     "margin": "20px",
     "border-radius": "12px",
     "background-color": "#FFFFFF",
-    "box-shadow": "0px 0px 4pt 0px #51535E",
+    "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
     "color": "#51535E",
 }
 
@@ -134,7 +139,7 @@ COLUMNGREEN = {
     "margin": "20px",
     "border-radius": "8px",
     "background-color": "#43C9BA",
-    "box-shadow": "0px 0px 14px 0px",
+    "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
     "color": "#21625B"
 }
 
@@ -145,7 +150,7 @@ COLUMNGREEN2 = {
     "margin": "20px",
     "border-radius": "8px",
     "background-color": "#43C9BA",
-    "box-shadow": "0px 0px 14px 0px",
+    "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
     "color": "#21625B"
 }
 
@@ -154,7 +159,7 @@ COLUMNFULL = {
     "display": "inline-block",
     "padding": "0px",
     "border-radius": "8px",
-    "box-shadow": "0px 0px 14px 0px",
+    "box-shadow": "0px 0px 20pt 0px rgb(0 0 0 / 0.1)",
     "background-color": "#262525",
     "color": "#51535E"
 }

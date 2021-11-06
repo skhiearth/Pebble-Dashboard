@@ -263,41 +263,7 @@ def update_line_chart(data):
         editable=True,
         sort_action="native",
         sort_mode="multi",
-        page_action="native",
-        style_data_conditional=[
-            {
-                'if': {
-                    'column_id': 'Snr',
-                    'filter_query': '{Snr} lt 12'
-                },
-                'backgroundColor': 'red',
-                'color': 'white',
-            },
-            {
-                'if': {
-                    'column_id': 'Snr',
-                    'filter_query': '{Snr} gt 30'
-                },
-                'backgroundColor': '#3D9970',
-                'color': 'white',
-            },
-            {
-                'if': {
-                    'column_id': 'Vbat',
-                    'filter_query': '{Vbat} gt 4'
-                },
-                'backgroundColor': '#3D9970',
-                'color': 'white',
-            },
-            {
-                'if': {
-                    'column_id': 'Vbat',
-                    'filter_query': '{Vbat} lt 3'
-                },
-                'backgroundColor': 'red',
-                'color': 'white',
-            },
-        ]
+        page_action="native"
     )
     return fig
 

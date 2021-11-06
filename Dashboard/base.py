@@ -23,7 +23,7 @@ app.layout = html.Div([
     html.Div(sidebar), 
     html.Div(navbar), 
     html.Div(content),
-])
+], style=SUPERSTYLE)
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):

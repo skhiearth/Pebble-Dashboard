@@ -110,6 +110,7 @@ for key, value in result["data"].items():
 
 statusDf.sort_values(by='Last Data Time', ascending = False, inplace=True)
 statusDf.reset_index(inplace=True)
+
 timeDf = statusDf[statusDf["Last Data"] != "None"]
 
 timeDf['Latitude'] = timeDf['Latitude'].apply(lambda x: x / 10 ** (len((str(x))) - 2))
@@ -117,6 +118,50 @@ timeDf['Longitude'] = timeDf['Longitude'].apply(lambda x: x / 10 ** (len((str(x)
 
 timeDf["Longitude"] = pd.to_numeric(timeDf["Longitude"])
 timeDf["Latitude"] = pd.to_numeric(timeDf["Latitude"])
+
+timeDf = timeDf.replace(to_replace="No Data", value = 0)
+
+timeDf["Snr"] = pd.to_numeric(timeDf["Snr"])
+timeDf["Snr"] = timeDf["Snr"] / 100
+
+timeDf["Vbat"] = pd.to_numeric(timeDf["Vbat"])
+timeDf["Vbat"] = timeDf["Vbat"] / 100
+
+timeDf["Gas Resistance"] = pd.to_numeric(timeDf["Gas Resistance"])
+timeDf["Gas Resistance"] = timeDf["Gas Resistance"] / 100
+
+timeDf["Temperature"] = pd.to_numeric(timeDf["Temperature"])
+timeDf["Temperature"] = timeDf["Temperature"] / 100
+
+timeDf["Temperature2"] = pd.to_numeric(timeDf["Temperature2"])
+timeDf["Temperature2"] = timeDf["Temperature2"] / 100
+
+timeDf["Pressure"] = pd.to_numeric(timeDf["Pressure"])
+timeDf["Pressure"] = timeDf["Pressure"] / 100
+
+timeDf["Humidity"] = pd.to_numeric(timeDf["Humidity"])
+timeDf["Humidity"] = timeDf["Humidity"] / 100
+
+timeDf["Light"] = pd.to_numeric(timeDf["Light"])
+timeDf["Light"] = timeDf["Light"] / 100
+
+timeDf["Gyroscope1"] = pd.to_numeric(timeDf["Gyroscope1"])
+timeDf["Gyroscope1"] = timeDf["Gyroscope1"] / 100
+
+timeDf["Gyroscope2"] = pd.to_numeric(timeDf["Gyroscope2"])
+timeDf["Gyroscope2"] = timeDf["Gyroscope2"] / 100
+
+timeDf["Gyroscope3"] = pd.to_numeric(timeDf["Gyroscope3"])
+timeDf["Gyroscope3"] = timeDf["Gyroscope3"] / 100
+
+timeDf["Accelerometer1"] = pd.to_numeric(timeDf["Accelerometer1"])
+timeDf["Accelerometer1"] = timeDf["Accelerometer1"] / 100
+
+timeDf["Accelerometer2"] = pd.to_numeric(timeDf["Accelerometer2"])
+timeDf["Accelerometer2"] = timeDf["Accelerometer2"] / 100
+
+timeDf["Accelerometer3"] = pd.to_numeric(timeDf["Accelerometer3"])
+timeDf["Accelerometer3"] = timeDf["Accelerometer3"] / 100
 
 timeDf['Last Data'] = pd.to_datetime(timeDf['Last Data'])
 timeDf["Date"] = timeDf["Last Data"].dt.date

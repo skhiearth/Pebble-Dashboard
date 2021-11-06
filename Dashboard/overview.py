@@ -79,7 +79,7 @@ overview = html.Div(
                 ], style=COLUMN3),
 
                 dbc.Col([
-                    html.H6("Owner Stats", style=HEADER),
+                    html.H6("Last data from", style=HEADER),
                     html.Div(
                         [
                             html.P(),
