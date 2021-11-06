@@ -77,48 +77,129 @@ device = html.Div(
             ]
         ),
 
-        html.Hr(),
-        html.H4("Current Data"),
-        html.H6("Latest data sent by this pebble tracker"),
         html.P(),
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H5(id='snr'),
-                    html.H5(id='vbat'),
-                    html.H5(id='latitude'),
-                    html.H5(id='longitude'),
-                    html.H5(id='temperature'),
-                ], style=COLUMN),
-                dbc.Col([
-                    html.H5(id='gasResistance'),
-                    html.H5(id='pressure'),
-                    html.H5(id='humidity'),
-                    html.H5(id='light'),
-                    html.H5(id='temperature2'),
-                ], style=COLUMN),
+                    html.H6("Last Known Location", style=HEADER),
+                    dcc.Graph(id='latestLocationPebble'),
+                ], style=COLUMN3),
+            ]
+        ),
+
+        html.P(),
+
+        dbc.Row(children=[
+            dbc.Col([
+                html.H6("Signal-to-noise ratio", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='snr', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+
+            dbc.Col([
+                html.H6("Battery Voltage", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='vbat', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+
+            dbc.Col([
+                html.H6("Temperature", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='temperature', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
             ]
         ),
 
         dbc.Row(children=[
+            dbc.Col([
+                html.H6("Gas Resistance", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='gasResistance', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+
+            dbc.Col([
+                html.H6("Pressure", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='pressure', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+
+            dbc.Col([
+                html.H6("Humidity", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='humidity', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+        ]),
+
+        dbc.Row(children=[
+            dbc.Col([
+                html.H6("Ambient Light", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='light', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+
+            dbc.Col([
+                html.H6("Gyroscope", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='gyroscope', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+
+            dbc.Col([
+                html.H6("Accelerometer", style=HEADER),
+                html.Div(
+                    [
+                        html.P(),
+                        html.H6(id='accelerometer', style=GREYSUBHEADING),
+                    ], style=COLUMN3DIV
+                ),
+            ], style=COLUMN3),
+        ]),
+
+        html.P(),
+
+        dbc.Row(children=[
                 dbc.Col([
-                    html.H5("Latest Gyroscope Readings"),
-                    html.H6(id='gyroscope'),
-                ], style=COLUMN),
-                dbc.Col([
-                    html.H5("Latest Accelerometer Readings"),
-                    html.H6(id='accelerometer'),
-                ], style=COLUMN),
+                    html.H6("Historic Data Points", style=HEADER),
+                    html.Div(id='tableDiv'),
+                ], style=COLUMN3),
             ]
         ),
-
-        dcc.Graph(id='latestLocationPebble', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
         
+        html.P(),
         html.Hr(),
-        html.H4("Historic Data"),
         html.H6("Analytics of historic data sent by this pebble device"),
         html.P(),
-
 
         dbc.Row(children=[
                 dbc.Col(dcc.Graph(id="snrhist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
@@ -126,7 +207,13 @@ device = html.Div(
             ]
         ),
 
-        dcc.Graph(id='temperaturehistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H6("Temperature and location over time", style=HEADER),
+                    dcc.Graph(id='temperaturehistmap'),
+                ], style=COLUMN3),
+            ]
+        ),
 
         dbc.Row(children=[
                 dbc.Col(dcc.Graph(id="temperaturehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
@@ -134,8 +221,15 @@ device = html.Div(
             ]
         ),
 
-        dcc.Graph(id='pressurehistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
-        dcc.Graph(id='humidityhistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H6("Pressure and location over time", style=HEADER),
+                    dcc.Graph(id='pressurehistmap'),
+                ], style=COLUMN3),
+            ]
+        ),
+
+        # dcc.Graph(id='humidityhistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
 
         dbc.Row(children=[
                 dbc.Col(dcc.Graph(id="pressurehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
@@ -146,16 +240,6 @@ device = html.Div(
         dbc.Row(children=[
                 dbc.Col(dcc.Graph(id="lighthist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
                 dbc.Col(dcc.Graph(id="gasResistancehist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
-            ]
-        ),
-
-        html.Hr(),
-        html.H4("Historic Data Table"),
-        html.H6("Data table showing all data sent by this Pebble tracker"),
-        html.P(),
-
-        dbc.Row(children=[
-                dbc.Col(html.Div(id='tableDiv'), style=COLUMNGREEN),
             ]
         ),
 
@@ -267,7 +351,7 @@ def update_line_chart(value):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Signal-to-noise ratio: {}".format(data.iloc[0]["Snr"])
+    return "{}".format(data.iloc[0]["Snr"])
 
 @app.callback(
     Output("vbat", component_property='children'), 
@@ -275,7 +359,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Battery Voltage: {}V".format(data.iloc[0]["Vbat"])
+    return "{}V".format(data.iloc[0]["Vbat"])
 
 @app.callback(
     Output("latitude", component_property='children'), 
@@ -283,7 +367,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Latitude: {}".format(data.iloc[0]["Latitude"])
+    return "{}".format(data.iloc[0]["Latitude"])
 
 @app.callback(
     Output("longitude", component_property='children'), 
@@ -291,7 +375,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Longitude: {}".format(data.iloc[0]["Longitude"])
+    return "{}".format(data.iloc[0]["Longitude"])
 
 @app.callback(
     Output("gasResistance", component_property='children'), 
@@ -299,7 +383,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Gas Resistance: {}".format(data.iloc[0]["Gas Resistance"])
+    return "{}".format(data.iloc[0]["Gas Resistance"])
 
 @app.callback(
     Output("temperature", component_property='children'), 
@@ -307,7 +391,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Temperature: {} deg C".format(data.iloc[0]["Temperature"])
+    return "{} deg C".format(data.iloc[0]["Temperature"])
 
 @app.callback(
     Output("pressure", component_property='children'), 
@@ -315,7 +399,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Pressure: {} hPa".format(data.iloc[0]["Pressure"])
+    return "{} hPa".format(data.iloc[0]["Pressure"])
 
 @app.callback(
     Output("humidity", component_property='children'), 
@@ -331,7 +415,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Ambient Light: {} lux".format(data.iloc[0]["Light"])
+    return "{} lux".format(data.iloc[0]["Light"])
 
 @app.callback(
     Output("temperature2", component_property='children'), 
@@ -339,7 +423,7 @@ def update_line_chart(data):
 def update_line_chart(data):
     data = pd.read_json(data, orient='split')
     
-    return "Temperature (from motion sensor): {} deg C".format(data.iloc[0]["Temperature2"])
+    return "{} deg C".format(data.iloc[0]["Temperature2"])
 
 @app.callback(
     Output("gyroscope", component_property='children'), 
@@ -368,11 +452,10 @@ def update_line_chart(data):
     fig = px.scatter_geo(data,
                     lat=data["Latitude"],
                     lon=data["Longitude"],
-                    title="Latest location of Pebble Device (hover over to see timestamp)",
                     hover_data=["Snr", "Vbat", "Latitude", "Longitude", "Gas Resistance", "Temperature", "Pressure", "Humidity", "Light"],
-                    hover_name="Timestamp", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
+                    hover_name="Timestamp")
     fig.update_geos(projection_type="natural earth")
+
     return fig
 
 @app.callback(
@@ -383,10 +466,8 @@ def update_line_chart(data):
     fig = px.scatter_geo(data,
                     lat=data["Latitude"],
                     lon=data["Longitude"],
-                    title="Temperature and location over time (hover over to see temperature at that time)",
                     size="Temperature",
-                    animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
+                    animation_frame=data.Timestamp.astype(str))
     return fig
 
 @app.callback(
@@ -411,10 +492,8 @@ def update_line_chart(data):
     fig = px.scatter_geo(data,
                     lat=data["Latitude"],
                     lon=data["Longitude"],
-                    title="Pressure and location over time (hover over to see pressure at that time)",
                     size="Pressure",
-                    animation_frame=data.Timestamp.astype(str), template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
+                    animation_frame=data.Timestamp.astype(str))
     return fig
 
 # Historic
