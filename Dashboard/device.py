@@ -202,8 +202,8 @@ device = html.Div(
         html.P(),
 
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="snrhist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
-                dbc.Col(dcc.Graph(id="vbathist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
+                dbc.Col(dcc.Graph(id="snrhist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="vbathist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN)
             ]
         ),
 
@@ -216,8 +216,8 @@ device = html.Div(
         ),
 
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="temperaturehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
-                dbc.Col(dcc.Graph(id="temperature2hist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
+                dbc.Col(dcc.Graph(id="temperaturehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="temperature2hist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN)
             ]
         ),
 
@@ -232,14 +232,14 @@ device = html.Div(
         # dcc.Graph(id='humidityhistmap', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, config={'displayModeBar': False}, style=COLUMNFULL),
 
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="pressurehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
-                dbc.Col(dcc.Graph(id="humidityhist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
+                dbc.Col(dcc.Graph(id="pressurehist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="humidityhist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN)
             ]
         ),
 
         dbc.Row(children=[
-                dbc.Col(dcc.Graph(id="lighthist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN),
-                dbc.Col(dcc.Graph(id="gasResistancehist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#43C9BA', plot_bgcolor='#43C9BA')}, config={'displayModeBar': False}), style=COLUMNGREEN)
+                dbc.Col(dcc.Graph(id="lighthist", style=GRAPHS,  figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN),
+                dbc.Col(dcc.Graph(id="gasResistancehist", style=GRAPHS, figure={'layout': go.Layout(paper_bgcolor='#00DEB1', plot_bgcolor='#00DEB1')}, config={'displayModeBar': False}), style=COLUMNGREEN)
             ]
         ),
 
@@ -476,8 +476,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
@@ -508,8 +508,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
@@ -540,8 +540,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
@@ -572,8 +572,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
@@ -604,8 +604,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
@@ -636,8 +636,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
@@ -668,8 +668,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])
@@ -700,8 +700,8 @@ def update_line_chart(data):
         title=titletext
         )
     fig.update_layout({
-        "plot_bgcolor": "#43C9BA",
-        "paper_bgcolor": "#43C9BA",
+        "plot_bgcolor": "#00DEB1",
+        "paper_bgcolor": "#00DEB1",
     })
     if(data.shape[0] > 40):
         fig.update_layout(xaxis_range=[data["Timestamp"].iat[40], data["Timestamp"].iat[0]])

@@ -32,6 +32,8 @@ query = """
 }
 """
 result = run_query(query)
+print("TESSSST")
+print(result)
 
 statusDf = pd.DataFrame(columns = ["Id", "Name", "Address", "Owner", "Last Data Time", "Last Data", "Status", "Raw Data",
                                   "Snr", "Vbat", "Latitude", "Longitude", "Gas Resistance", "Temperature", "Pressure",
