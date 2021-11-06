@@ -100,12 +100,34 @@ COLUMN3 = {
     "color": "#51535E",
 }
 
+COLUMN4 = {
+    "width": "80%",
+    "display": "inline-block",
+    "padding": "10px",
+    "margin": "20px",
+    "border-radius": "12px",
+    "background-color": "#FFFFFF",
+    "box-shadow": "0px 0px 4pt 0px #51535E",
+    "color": "#51535E",
+}
+
 COLUMN3DIV = {
     "text-align": "center"
 }
 
 COLUMNGREEN = {
     "width": "40%",
+    "display": "inline-block",
+    "padding": "10px",
+    "margin": "20px",
+    "border-radius": "8px",
+    "background-color": "#43C9BA",
+    "box-shadow": "0px 0px 14px 0px",
+    "color": "#21625B"
+}
+
+COLUMNGREEN2 = {
+    "max-width": "360px",
     "display": "inline-block",
     "padding": "10px",
     "margin": "20px",

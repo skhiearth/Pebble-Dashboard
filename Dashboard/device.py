@@ -23,34 +23,59 @@ ids = timeDf.Id.unique()
 
 device = html.Div(
     [
-        dbc.Row(dbc.Col(html.Div(html.H3("Device Analytics", style=HEADING)))),
         dcc.Store(id='deviceData'),
         html.Div(id='in-load'),
 
-        html.P(),
+        dbc.Row(children=[
+            dbc.Col([
+                html.H5("Select a device by IMEI"),
+                dcc.Dropdown(
+                    id='dropdown',
+                    options=[
+                        {'label': i, 'value': i} for i in ids
+                    ], value=ids[0]
+                ), 
+            ], style = COLUMNGREEN2),
+            dbc.Col([
+                html.H6("Device Name", style=HEADER),
+                html.H5(id='nameLatestPebble', style=GREYSUBHEADING),
+                html.H5(id='idLatestPebble', style=GREYSUBHEADINGSMALL),
+            ], style = COLUMN4),
+        ]),
+        
 
-        html.H5("Select a device from the dropdown to get in-depth device analytics: "),
-
-        dcc.Dropdown(
-            id='dropdown',
-            options=[
-                {'label': i, 'value': i} for i in ids
-            ], value=ids[0]
-        ),
+        
 
         dbc.Row(children=[
                 dbc.Col([
-                    html.H4("Overview"),
-                    html.H6("Generic metadata about this particular Pebble tracker"),
-                    html.Hr(style=RULE),
-                    html.P(),
-                    html.P(),
-                    html.H5(id='idLatestPebble'),
-                    html.H5(id='timeLatestPebble'),
-                    html.H5(id='nameLatestPebble'),
-                    html.H5(id='addressLatestPebble'),
-                    html.H5(id='ownerLatestPebble'),
-                ], style=COLUMN)
+                    html.H6("Device Address", style=HEADER),
+                    html.Div(
+                        [
+                            html.P(),
+                            html.H5(id='addressLatestPebble', style=GREYSUBHEADINGSMALL),
+                        ], style=COLUMN3DIV
+                    ),
+                ], style=COLUMN3),
+
+                dbc.Col([
+                    html.H6("Device Owner", style=HEADER),
+                    html.Div(
+                        [
+                            html.P(),
+                            html.H5(id='ownerLatestPebble', style=GREYSUBHEADINGSMALL),
+                        ], style=COLUMN3DIV
+                    ),
+                ], style=COLUMN3),
+
+                dbc.Col([
+                    html.H6("Last updated", style=HEADER),
+                    html.Div(
+                        [
+                            html.P(),
+                            html.H5(id='timeLatestPebble', style=GREYSUBHEADINGSMALL),
+                        ], style=COLUMN3DIV
+                    ),
+                ], style=COLUMN3),
             ]
         ),
 
@@ -208,7 +233,7 @@ def update_output(value):
     Input('deviceData', 'data'))
 def update_line_chart(value, data):
     filtered_df = timeDf[timeDf['Id'] == value]
-    return "Last Update Time: {}".format(filtered_df.iloc[0]["Last Data"])
+    return "{}".format(filtered_df.iloc[0]["Last Data"])
 
 @app.callback(
     Output("idLatestPebble", component_property='children'), 
@@ -222,21 +247,21 @@ def update_line_chart(value):
     [Input('dropdown', 'value')])
 def update_line_chart(value):
     filtered_df = timeDf[timeDf['Id'] == value]
-    return "Name: {}".format(filtered_df.iloc[0]["Name"])
+    return "{}".format(filtered_df.iloc[0]["Name"])
 
 @app.callback(
     Output("addressLatestPebble", component_property='children'), 
     [Input('dropdown', 'value')])
 def update_line_chart(value):
     filtered_df = timeDf[timeDf['Id'] == value]
-    return "Address: {}".format(filtered_df.iloc[0]["Address"])
+    return "{}".format(filtered_df.iloc[0]["Address"][0:8] + "..." + filtered_df.iloc[0]["Address"][-8:])
 
 @app.callback(
     Output("ownerLatestPebble", component_property='children'), 
     [Input('dropdown', 'value')])
 def update_line_chart(value):
     filtered_df = timeDf[timeDf['Id'] == value]
-    return "Owner: {}".format(filtered_df.iloc[0]["Owner"])
+    return "{}".format(filtered_df.iloc[0]["Owner"][0:8] + "..." + filtered_df.iloc[0]["Owner"][-8:])
 
 @app.callback(
     Output("snr", component_property='children'), 

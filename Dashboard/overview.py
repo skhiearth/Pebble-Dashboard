@@ -76,7 +76,6 @@ overview = html.Div(
                             html.H6(id='thirdDevices'),
                         ], style=COLUMN3DIV
                     ),
-                    
                 ], style=COLUMN3),
 
                 dbc.Col([
