@@ -22,62 +22,111 @@ overview = html.Div(
         dbc.Row([
             dcc.Store(id='statusData'),
             html.Div(id='in-load'),
-            dbc.Col(html.Div(html.H3("Overview", style=HEADING))),
         ]),
-        html.Hr(),
 
         html.P(),
         
         dbc.Row(children=[
                 dbc.Col([
-                    html.H6("Device Stats"),
-                    html.Hr(style=RULE),
-                    html.P(),
-                    html.H6(id='totalDevices'),
-                    html.H6(id='confirmedDevices'),
-                    html.H6(id='pendingDevices'),
-                    html.H6(id='activeData'),
-                    html.H6(id='noData'),
+                    html.H6("Device Stats", style=HEADER),
+                    html.Div(
+                        [
+                            html.P(),
+                            html.H6("Total Devices", style=GREENHEADING),
+                            html.H6(id='totalDevices', style=GREYSUBHEADING),
+
+                            html.P(),
+                            html.P(),
+                            html.Img(src=app.get_asset_url('satgreen.png'), height="60px"),
+                            html.P(),
+                            html.P(),
+
+                            dbc.Row(children=[
+                                dbc.Col([
+                                    html.H6("Confirmed Devices", style=GREENHEADINGSMALL),
+                                    html.H6(id='confirmedDevices', style=GREYSUBHEADINGSMALL),
+                                ]),
+                                dbc.Col([
+                                    html.H6("Pending Devices", style=GREENHEADINGSMALL),
+                                    html.H6(id='pendingDevices', style=GREYSUBHEADINGSMALL),
+                                ])
+                            ])
+                            # html.H6(id='activeData'),
+                            # html.H6(id='noData'),
+                        ], style=COLUMN3DIV
+                    )
                 ], style=COLUMN3),
 
                 dbc.Col([
-                    html.H6("Owner Stats"),
-                    html.Hr(style=RULE),
-                    html.P(),
-                    html.H6(id='firstDevices'),
-                    html.H6(id='secondDevices'),
-                    html.H6(id='thirdDevices'),
+                    html.H6("Owner Stats", style=HEADER),
+                    html.Div(
+                        [
+                            html.P(),
+                            html.H6("Total Users", style=GREENHEADING),
+                            html.H6(id='totalUsers', style=GREYSUBHEADING),
+
+                            html.P(),
+                            html.P(),
+                            html.Img(src=app.get_asset_url('user.png'), height="60px"),
+                            html.P(),
+                            html.P(),
+
+                            html.H6(id='firstDevices'),
+                            html.H6(id='secondDevices'),
+                            html.H6(id='thirdDevices'),
+                        ], style=COLUMN3DIV
+                    ),
+                    
                 ], style=COLUMN3),
 
                 dbc.Col([
-                    html.H6("Last data from"),
-                    html.Hr(style=RULE),
-                    html.P(),
-                    html.H6(id='timeLatest'),
-                    html.H6(id='idLatest'),
-                    html.H6(id='nameLatest'),
-                    html.H6(id='addressLatest'),
-                    html.H6(id='ownerLatest'),
+                    html.H6("Owner Stats", style=HEADER),
+                    html.Div(
+                        [
+                            html.P(),
+
+                            html.H6("Time", style=GREENHEADINGSMALL),
+                            html.H6(id='timeLatest', style=GREYSUBHEADINGSMALL),
+                            html.P(),
+
+                            html.H6("ID", style=GREENHEADINGSMALL),
+                            html.H6(id='idLatest', style=GREYSUBHEADINGSMALL),
+                            html.P(),
+
+                            html.H6("Name", style=GREENHEADINGSMALL),
+                            html.H6(id='nameLatest', style=GREYSUBHEADINGSMALL),
+                            html.P(),
+
+                            html.H6("Address", style=GREENHEADINGSMALL),
+                            html.H6(id='addressLatest', style=GREYSUBHEADINGSMALL),
+                            html.P(),
+
+                            html.H6("Owner", style=GREENHEADINGSMALL),
+                            html.H6(id='ownerLatest', style=GREYSUBHEADINGSMALL),
+                            html.P(),
+                        ], style=COLUMN3DIV
+                    ),
                 ], style=COLUMN3),
             ]
         ),
 
-        html.Hr(),
-
-        html.P(),
-
-        dcc.Graph(id='latestLocation', figure={'layout': go.Layout(paper_bgcolor='#262525', plot_bgcolor='#262525')}, style=COLUMNFULL),
-
-        html.Hr(),
-
-        html.P(),
-
-        html.H4("Live Data Table"),
-        html.H6("Data table showing the latest datapoints entering TruStream"),
         html.P(),
 
         dbc.Row(children=[
-                dbc.Col(html.Div(id='liveTable'), style=COLUMNGREEN),
+                dbc.Col([
+                    html.H6("Latest location of devices", style=HEADER),
+                    dcc.Graph(id='latestLocation'),
+                ], style=COLUMN3),
+            ]
+        ),
+
+        html.P(),
+
+        dbc.Row(children=[
+                dbc.Col([
+                    html.H6("Latest Data Points", style=HEADER),
+                    html.Div(id='liveTable'),
+                ], style=COLUMN3),
             ]
         ),
     ]
@@ -89,31 +138,37 @@ overview = html.Div(
     Output("totalDevices", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Total Devices: {}".format(len(statusDf))
+    return "{}".format(len(statusDf))
+
+@app.callback(
+    Output("totalUsers", component_property='children'), 
+    Input('statusData', 'data'))
+def update_line_chart(data):
+    return "{}".format(statusDf.Owner.nunique())
 
 @app.callback(
     Output("confirmedDevices", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Confirmed Devices: {}".format(len(statusDf[statusDf["Status"] == 2]))
+    return "{}".format(len(statusDf[statusDf["Status"] == 2]))
 
 @app.callback(
     Output("pendingDevices", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Pending Devices: {}".format(len(statusDf[statusDf["Status"] == 1]))
+    return "{}".format(len(statusDf[statusDf["Status"] == 1]))
 
 @app.callback(
     Output("activeData", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Active Devices: {}".format(len(statusDf[statusDf["Raw Data"] != "No Data"]))
+    return "{}".format(len(statusDf[statusDf["Raw Data"] != "No Data"]))
 
 @app.callback(
     Output("noData", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Devices with no data yet: {}".format(len(statusDf[statusDf["Raw Data"] == "No Data"]))
+    return "{}".format(len(statusDf[statusDf["Raw Data"] == "No Data"]))
 
 @app.callback(
     Output("piechart", component_property='figure'), 
@@ -161,55 +216,55 @@ def update_line_chart(data):
     Output("timeLatest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Time: {}".format(timeDf.iloc[0]["Last Data"])
+    return "{}".format(timeDf.iloc[0]["Last Data"])
 
 @app.callback(
     Output("timeOldest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Time: {}".format(timeDf.iloc[-1]["Last Data"])
+    return "{}".format(timeDf.iloc[-1]["Last Data"])
 
 @app.callback(
     Output("idLatest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "ID: {}".format(timeDf.iloc[0]["Id"])
+    return "{}".format(timeDf.iloc[0]["Id"])
 
 @app.callback(
     Output("idOldest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "ID: {}".format(timeDf.iloc[-1]["Id"])
+    return "{}".format(timeDf.iloc[-1]["Id"])
 
 @app.callback(
     Output("nameLatest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Name: {}".format(timeDf.iloc[0]["Name"])
+    return "{}".format(timeDf.iloc[0]["Name"])
 
 @app.callback(
     Output("nameOldest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Name: {}".format(timeDf.iloc[-1]["Name"])
+    return "{}".format(timeDf.iloc[-1]["Name"])
 
 @app.callback(
     Output("addressLatest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Address: {}".format(timeDf.iloc[0]["Address"][0:6] + "..." + timeDf.iloc[0]["Address"][-6:])
+    return "{}".format(timeDf.iloc[0]["Address"][0:6] + "..." + timeDf.iloc[0]["Address"][-6:])
 
 @app.callback(
     Output("addressOldest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Address: {}".format(timeDf.iloc[-1]["Address"])
+    return "{}".format(timeDf.iloc[-1]["Address"])
 
 @app.callback(
     Output("ownerLatest", component_property='children'), 
     Input('statusData', 'data'))
 def update_line_chart(data):
-    return "Owner: {}".format(timeDf.iloc[0]["Owner"][0:6] + "..." + timeDf.iloc[0]["Owner"][-6:])
+    return "{}".format(timeDf.iloc[0]["Owner"][0:6] + "..." + timeDf.iloc[0]["Owner"][-6:])
 
 @app.callback(
     Output("ownerOldest", component_property='children'), 
@@ -226,9 +281,7 @@ def update_line_chart(data):
                     lat=timeDf["Latitude"],
                     lon=timeDf["Longitude"],
                     hover_data=["Snr", "Vbat", "Latitude", "Longitude", "Gas Resistance", "Temperature", "Pressure", "Humidity", "Light"],
-                    title="Latest location of Pebble Devices (hover over to see ID)",
-                    hover_name="Id", template='plotly_dark').update_layout(
-        {'plot_bgcolor': '#262525', 'paper_bgcolor': '#262525', 'dragmode': False})
+                    hover_name="Id")
     fig.update_geos(projection_type="natural earth")
     return fig
 

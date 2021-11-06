@@ -12,7 +12,7 @@ import plotly.express as px
 from .style import *
 
 # ---COMPONENTS---
-IOTUBE_LOGO = "https://app.iott.network/images/logo.png"
+IOTUBE_LOGO = "satwhite.png"
 MISFITS_LOGO = "https://raw.githubusercontent.com/skhiearth/VacSeen/main/UI%20Elements/misfits_logo.png"
 
 navbar = dbc.Navbar([
@@ -20,8 +20,8 @@ navbar = dbc.Navbar([
         # Use row and col to control vertical alignment of logo / brand
         dbc.Row(
             [
-                dbc.Col(html.Img(src=IOTUBE_LOGO, height="30px")),
-                dbc.Col(dbc.NavbarBrand("Pebble Analytics", className="ml-2")),
+                dbc.Col(html.Img(src=app.get_asset_url('satwhite.png'), height="30px")),
+                dbc.Col(dbc.NavbarBrand("TruStream Dashboard", className="ml-2")),
             ],
             align="center",
             no_gutters=True,

@@ -3,7 +3,7 @@ NAVBAR_STYLE = {
     "top": 0,
     "left": 0,
     "right": 0,
-    "background-color": "#262525",
+    "background-image": "linear-gradient(to right, #5ECCF3, #00DFB3)"
 }
 
 SIDEBAR_STYLE = {
@@ -24,6 +24,29 @@ FOOTER_STYLE = {
     "background-color": "#262525",
 }
 
+HEADER = {
+    "font-weight": "600"
+}
+
+GREENHEADING = {
+    "color": "#00DEB1"
+}
+
+GREYSUBHEADING = {
+    "color": "#51535E",
+    "font-size": "28px"
+}
+
+GREENHEADINGSMALL = {
+    "font-size": "14px",
+    "color": "#00DEB1"
+}
+
+GREYSUBHEADINGSMALL = {
+    "color": "#51535E",
+    "font-size": "14px"
+}
+
 CONTENT_STYLE = {
     "margin-top": "58px",
     "margin-left": "16rem",
@@ -32,7 +55,6 @@ CONTENT_STYLE = {
 }
 
 NAVLINK = {
-    "background-color": "#2F8E83",
     "margin-top": "12px",
 }
 
@@ -74,8 +96,12 @@ COLUMN3 = {
     "margin": "20px",
     "border-radius": "12px",
     "background-color": "#FFFFFF",
-    "box-shadow": "0px 0px 14px 0px black",
-    "color": "#51535E"
+    "box-shadow": "0px 0px 4pt 0px #51535E",
+    "color": "#51535E",
+}
+
+COLUMN3DIV = {
+    "text-align": "center"
 }
 
 COLUMNGREEN = {
@@ -92,7 +118,7 @@ COLUMNGREEN = {
 COLUMNFULL = {
     "width": "100%",
     "display": "inline-block",
-    "padding": "10px",
+    "padding": "0px",
     "border-radius": "8px",
     "box-shadow": "0px 0px 14px 0px",
     "background-color": "#262525",
