@@ -37,7 +37,7 @@ overview = html.Div(
 
                             html.P(),
                             html.P(),
-                            html.Img(src=app.get_asset_url('satgreen.png'), height="60px"),
+                            html.Img(src='https://raw.githubusercontent.com/skhiearth/Pebble-Dashboard/main/assets/satgreen.png', height="60px"),
                             html.P(),
                             html.P(),
 
@@ -67,7 +67,7 @@ overview = html.Div(
 
                             html.P(),
                             html.P(),
-                            html.Img(src=app.get_asset_url('user.png'), height="60px"),
+                            html.Img(src='https://raw.githubusercontent.com/skhiearth/Pebble-Dashboard/main/assets/user.png', height="60px"),
                             html.P(),
                             html.P(),
 
