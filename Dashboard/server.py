@@ -125,45 +125,59 @@ timeDf = timeDf.replace(to_replace="No Data", value = 0)
 
 timeDf["Snr"] = pd.to_numeric(timeDf["Snr"])
 timeDf["Snr"] = timeDf["Snr"] / 100
+timeDf['Snr'] = timeDf['Snr'].round(2)
 
 timeDf["Vbat"] = pd.to_numeric(timeDf["Vbat"])
 timeDf["Vbat"] = timeDf["Vbat"] / 100
+timeDf['Vbat'] = timeDf['Vbat'].round(2)
 
 timeDf["Gas Resistance"] = pd.to_numeric(timeDf["Gas Resistance"])
 timeDf["Gas Resistance"] = timeDf["Gas Resistance"] / 100
+timeDf['Gas Resistance'] = timeDf['Gas Resistance'].round(1)
 
 timeDf["Temperature"] = pd.to_numeric(timeDf["Temperature"])
 timeDf["Temperature"] = timeDf["Temperature"] / 100
+timeDf['Temperature'] = timeDf['Temperature'].round(1)
 
 timeDf["Temperature2"] = pd.to_numeric(timeDf["Temperature2"])
 timeDf["Temperature2"] = timeDf["Temperature2"] / 100
+timeDf['Temperature2'] = timeDf['Temperature2'].round(1)
 
 timeDf["Pressure"] = pd.to_numeric(timeDf["Pressure"])
 timeDf["Pressure"] = timeDf["Pressure"] / 100
+timeDf['Pressure'] = timeDf['Pressure'].round(1)
 
 timeDf["Humidity"] = pd.to_numeric(timeDf["Humidity"])
 timeDf["Humidity"] = timeDf["Humidity"] / 100
+timeDf['Humidity'] = timeDf['Humidity'].round(1)
 
 timeDf["Light"] = pd.to_numeric(timeDf["Light"])
 timeDf["Light"] = timeDf["Light"] / 100
+timeDf['Light'] = timeDf['Light'].round(1)
 
 timeDf["Gyroscope1"] = pd.to_numeric(timeDf["Gyroscope1"])
 timeDf["Gyroscope1"] = timeDf["Gyroscope1"] / 100
+timeDf['Gyroscope1'] = timeDf['Gyroscope1'].round(1)
 
 timeDf["Gyroscope2"] = pd.to_numeric(timeDf["Gyroscope2"])
 timeDf["Gyroscope2"] = timeDf["Gyroscope2"] / 100
+timeDf['Gyroscope2'] = timeDf['Gyroscope2'].round(1)
 
 timeDf["Gyroscope3"] = pd.to_numeric(timeDf["Gyroscope3"])
 timeDf["Gyroscope3"] = timeDf["Gyroscope3"] / 100
+timeDf['Gyroscope3'] = timeDf['Gyroscope3'].round(1)
 
 timeDf["Accelerometer1"] = pd.to_numeric(timeDf["Accelerometer1"])
 timeDf["Accelerometer1"] = timeDf["Accelerometer1"] / 100
+timeDf['Accelerometer1'] = timeDf['Accelerometer1'].round(1)
 
 timeDf["Accelerometer2"] = pd.to_numeric(timeDf["Accelerometer2"])
 timeDf["Accelerometer2"] = timeDf["Accelerometer2"] / 100
+timeDf['Accelerometer2'] = timeDf['Accelerometer2'].round(1)
 
 timeDf["Accelerometer3"] = pd.to_numeric(timeDf["Accelerometer3"])
 timeDf["Accelerometer3"] = timeDf["Accelerometer3"] / 100
+timeDf['Accelerometer3'] = timeDf['Accelerometer3'].round(1)
 
 timeDf['Last Data'] = pd.to_datetime(timeDf['Last Data'])
 timeDf["Date"] = timeDf["Last Data"].dt.date
